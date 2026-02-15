@@ -1,0 +1,10 @@
+{
+  "name": "Trading Alerts",
+  "short_name": "Trading",
+  "description": "Real-time stock trading alerts with AI analysis",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "orientation": "portrait"
+}
