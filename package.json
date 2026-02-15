@@ -1,0 +1,13 @@
+{
+  "name": "trading-alerts-app",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "backend:install": "cd backend && npm install",
+    "backend:dev": "cd backend && npm run dev",
+    "backend:start": "cd backend && npm start",
+    "frontend:serve": "npx serve frontend -l 5500",
+    "dev": "npm run backend:dev",
+    "start": "npm run backend:start"
+  }
+}

@@ -1,0 +1,74 @@
+﻿# TRADING ALERTS APP - CURSOR RULES (ENGLISH)
+
+## GLOBAL RULES
+- ALL code, comments, variable names, UI text in ENGLISH
+- Use Heroicons or Lucide icons ONLY (no emoji, no WhatsApp icons)
+- Minimal icons: only where essential for UX (settings, chat, refresh)
+- Clean, professional Revolut-style design (no decorative icons)
+
+## CODING STYLE
+- ES6+ (const/let, arrow functions, async/await)
+- Max 100 chars/line
+- Comments ONLY for complex logic (no obvious comments)
+- Error handling: try/catch on ALL async functions
+- Validate inputs before processing
+- API responses: { success: boolean, data: any, error: string }
+
+## AGENT MODE BEHAVIOR
+- Test each module immediately after creation
+- Backend: npm install && npm start && test endpoints
+- Frontend: open index.html && check console
+- Fix errors before proceeding to next module
+- Never leave TODO/FIXME/placeholders
+
+## ITERATION LOOP
+1. Implement module
+2. Test functionality
+3. If error -> analyze cause -> fix -> re-test
+4. Only proceed when tests pass
+5. Document fixes in commit message
+
+## DESIGN SYSTEM (MANDATORY)
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --primary: #3b82f6;
+  --success: #10b981;
+  --danger: #ef4444;
+  --radius: 12px;
+  --shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+Mobile-first: start with 375px, add media queries for 768px+
+
+## AI CHAT SPECIAL
+- Multi-mode detection: analyze question and respond from relevant perspectives
+- ALWAYS concise (max 250 words)
+- Respond in SAME language as user query
+- Structure: Analysis -> Key insights -> Actionable info
+
+## SYMBOLS SOURCE
+- Fetch from Yahoo Finance API (S&P 500 or top volume)
+- Auto-update weekly
+- Fallback to cached top100.json
+
+## TESTING CHECKLIST (execute after each module)
+Backend:
+- npm install succeeds
+- npm start no errors
+- curl endpoints return 200 OK
+- Error handling works (invalid inputs)
+
+Frontend:
+- index.html opens no console errors
+- Responsive at 375px, 768px, 1024px
+- All buttons/interactions work
+- LocalStorage persists
+
+Integration:
+- Frontend API calls succeed
+- AI responds (<5s)
+- Notifications request permission correctly

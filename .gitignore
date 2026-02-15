@@ -1,0 +1,41 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Node
+node_modules/
+*.pid
+*.seed
+*.pid.lock
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Build outputs / caches
+dist/
+build/
+.cache/
+.tmp/
+temp/
+
+# Coverage
+coverage/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Vercel
+.vercel/
