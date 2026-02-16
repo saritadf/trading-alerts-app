@@ -1,28 +1,18 @@
 import express from 'express';
-import { generateChatResponse } from '../services/aiService.js';
+import { chat } from '../services/aiService.js';
 
 const router = express.Router();
 
-// POST /api/ai/chat - Chat with AI assistant
+// Chat with AI
 router.post('/chat', async (req, res) => {
   try {
-    const { message, mode, context } = req.body;
-    
-    if (!message) {
-      return res.status(400).json({
-        success: false,
-        error: 'Message is required'
-      });
-    }
-    
-    const response = await generateChatResponse(message, mode, context);
-    
-    res.json({
-      success: true,
-      response,
-      mode,
-      timestamp: new Date().toISOString()
-    });
+    const { message, context } = req.body;
+    const response = await chat(message, context);
+    res.json({ success: true, response });
   } catch (error) {
-    console.error('Error generating AI response:', error);
-    res.status(500).json
+    console.error('Error in chat:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+export default router;

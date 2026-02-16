@@ -1,49 +1,28 @@
 import express from 'express';
-import { getMarketAlerts, getSymbolInfo } from '../services/yahooFinance.js';
+import { getSignificantChanges, getStockData } from '../services/yahooFinance.js';
 
 const router = express.Router();
 
-// GET /api/alerts - Get current market alerts
-router.get('/', async (req, res) => {
+// Get real-time alerts
+router.get('/live', async (req, res) => {
   try {
-    const threshold = parseFloat(req.query.threshold) || 3.0;
-    const alerts = await getMarketAlerts(threshold);
-    
-    res.json({
-      success: true,
-      alerts,
-      threshold,
-      timestamp: new Date().toISOString()
-    });
+    const alerts = await getSignificantChanges();
+    res.json({ success: true, alerts });
   } catch (error) {
-    console.error('Error fetching alerts:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch market alerts',
-      message: error.message
-    });
+    console.error('Error getting alerts:', error);
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
-// GET /api/alerts/:symbol - Get info for specific symbol
-router.get('/:symbol', async (req, res) => {
+// Get specific stock data
+router.get('/stock/:symbol', async (req, res) => {
   try {
     const { symbol } = req.params;
-    const info = await getSymbolInfo(symbol);
-    
-    res.json({
-      success: true,
-      symbol,
-      info,
-      timestamp: new Date().toISOString()
-    });
+    const data = await getStockData(symbol);
+    res.json({ success: true, data });
   } catch (error) {
-    console.error(`Error fetching symbol ${req.params.symbol}:`, error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch symbol information',
-      message: error.message
-    });
+    console.error('Error getting stock data:', error);
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

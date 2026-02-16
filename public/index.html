@@ -1,174 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Real-time stock trading alerts with AI analysis">
-    <title>Trading Alerts</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#000000">
+    <title>Trading Alerts - Papa's App</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
-    <div id="app">
-        <!-- Header -->
-        <header class="header">
-            <div class="container">
-                <h1 class="logo">Trading Alerts</h1>
-                <button class="settings-btn" id="settingsBtn" aria-label="Settings">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M12 1v6m0 6v6"></path>
-                    </svg>
-                </button>
+    <div class="container">
+        <header>
+            <h1>📈 Trading Alerts</h1>
+            <p class="subtitle">Alertas en tiempo real del mercado</p>
+            <div class="status" id="status">
+                <span class="status-dot"></span>
+                <span id="statusText">Conectando...</span>
             </div>
         </header>
 
-        <!-- Filter Controls -->
-        <section class="filters">
-            <div class="container">
-                <div class="filter-group">
-                    <label for="thresholdSelect">Alert Threshold:</label>
-                    <select id="thresholdSelect" class="filter-select">
-                        <option value="2">±2%</option>
-                        <option value="3" selected>±3%</option>
-                        <option value="5">±5%</option>
-                        <option value="7">±7%</option>
-                        <option value="10">±10%</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="sortSelect">Sort By:</label>
-                    <select id="sortSelect" class="filter-select">
-                        <option value="change">% Change</option>
-                        <option value="volume">Volume</option>
-                        <option value="time">Time</option>
-                    </select>
-                </div>
-                <button class="refresh-btn" id="refreshBtn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-                    </svg>
-                    Refresh
-                </button>
-            </div>
-        </section>
-
-        <!-- Stats Overview -->
-        <section class="stats">
-            <div class="container">
-                <div class="stat-card">
-                    <span class="stat-label">Alerts Today</span>
-                    <span class="stat-value" id="totalAlerts">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Gainers</span>
-                    <span class="stat-value positive" id="gainersCount">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Losers</span>
-                    <span class="stat-value negative" id="losersCount">0</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Alerts List -->
-        <section class="alerts-section">
-            <div class="container">
+        <main>
+            <!-- Alerts Section -->
+            <section class="alerts-section">
                 <div class="section-header">
-                    <h2>Live Alerts</h2>
-                    <span class="last-update" id="lastUpdate">Loading...</span>
+                    <h2>🔔 Alertas Activas</h2>
+                    <button class="refresh-btn" id="refreshBtn">🔄 Actualizar</button>
                 </div>
-                <div id="alertsList" class="alerts-list">
-                    <div class="loading-skeleton">
-                        <div class="skeleton-item"></div>
-                        <div class="skeleton-item"></div>
-                        <div class="skeleton-item"></div>
-                    </div>
+                <div class="alerts-container" id="alertsContainer">
+                    <div class="loading">Cargando alertas...</div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- AI Chat Toggle -->
-        <section class="ai-chat-section">
-            <div class="container">
-                <button class="chat-toggle" id="chatToggle">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    AI Analysis
-                </button>
-            </div>
-        </section>
-
-        <!-- AI Chat Modal -->
-        <div id="chatModal" class="chat-modal hidden">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h3>AI Market Analysis</h3>
-                    <button class="close-btn" id="closeChat" aria-label="Close">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
+            <!-- AI Chat Section -->
+            <section class="chat-section">
+                <div class="section-header">
+                    <h2>💬 Asistente AI</h2>
                 </div>
-                <div class="chat-mode-selector">
-                    <button class="mode-btn active" data-mode="technical">Technical</button>
-                    <button class="mode-btn" data-mode="fundamental">Fundamental</button>
-                    <button class="mode-btn" data-mode="sentiment">Sentiment</button>
-                </div>
-                <div id="chatMessages" class="chat-messages">
-                    <div class="chat-message ai-message">
-                        <p>Hello! I'm your AI trading assistant. Ask me about market trends, stocks, or analysis!</p>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            ¡Hola! Soy tu asistente de trading. Pregúntame sobre las alertas o análisis de acciones.
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input 
+                            type="text" 
+                            id="chatInput" 
+                            placeholder="Pregunta sobre las alertas..."
+                            autocomplete="off"
+                        >
+                        <button id="sendBtn">Enviar</button>
                     </div>
                 </div>
-                <div class="chat-input-container">
-                    <textarea id="chatInput" class="chat-input" placeholder="Ask about market trends or specific stocks..." rows="1"></textarea>
-                    <button id="sendBtn" class="send-btn" aria-label="Send">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Settings Modal -->
-        <div id="settingsModal" class="settings-modal hidden">
-            <div class="settings-container">
-                <div class="settings-header">
-                    <h3>Settings</h3>
-                    <button class="close-btn" id="closeSettings" aria-label="Close">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-                <div class="settings-content">
-                    <div class="setting-item">
-                        <label for="autoRefresh">Auto-refresh (seconds):</label>
-                        <input type="number" id="autoRefresh" min="10" max="300" value="30">
-                    </div>
-                    <div class="setting-item">
-                        <label>
-                            <input type="checkbox" id="soundToggle" checked>
-                            Enable sound alerts
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <label>
-                            <input type="checkbox" id="darkModeToggle" checked>
-                            Dark mode
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
 
-    <script src="js/app.js" type="module"></script>
+    <script src="/js/app.js"></script>
 </body>
 </html>
