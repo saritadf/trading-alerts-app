@@ -1,3 +1,5 @@
+import yahooFinance from 'yahoo-finance2';
+
 // Top 10 US stocks only (reduced for rate limits)
 const TOP_STOCKS = [
   'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BRK.B',
@@ -8,65 +10,71 @@ const TOP_STOCKS = [
 
 const DELAY_MS = 5000; // 5 seconds between requestsconst MAX_RETRIES = 2;
 const MIN_PRICE = 5;
+const MAX_RETRIES = 2;
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function safeQuote(symbol, attempt = 1) {
-  try {
-    await sleep(DELAY_MS); // Always wait before request
-    const quote = await yahooFinance.quote(symbol);
-    return quote;
-  } catch (error) {
-    if (error.message?.includes('429') && attempt < MAX_RETRIES) {
-      const waitTime = attempt * 3000; // 3s, 6s
-      console.log(`Rate limit for ${symbol}. Waiting ${waitTime}ms...`);
-      await sleep(waitTime);
-      return safeQuote(symbol, attempt + 1);
+    try {
+      await sleep(DELAY_MS);
+      // Use quoteSummary instead of quote
+      const quote = await yahooFinance.quoteSummary(symbol, {
+        modules: ['price', 'summaryDetail']
+      });
+      return quote;
+    } catch (error) {
+      if (error.message?.includes('429') && attempt < MAX_RETRIES) {
+        const waitTime = attempt * 3000;
+        console.log(`Rate limit for ${symbol}. Waiting ${waitTime}ms...`);
+        await sleep(waitTime);
+        return safeQuote(symbol, attempt + 1);
+      }
+      console.error(`Error fetching ${symbol} (attempt ${attempt}/${MAX_RETRIES}):`, error.message);
+      return null;
     }
-    console.error(`Error fetching ${symbol} (attempt ${attempt}/${MAX_RETRIES}):`, error.message);
-    return null;
   }
-}
 
-export async function getStockData(symbol) {
-  try {
-    const quote = await safeQuote(symbol);
-    if (!quote) return null;
-
-    const price = quote.regularMarketPrice || quote.price;
-    const previousClose = quote.regularMarketPreviousClose || quote.previousClose;
-    const volume = quote.regularMarketVolume || quote.volume;
-    const avgVolume = quote.averageDailyVolume10day || quote.averageDailyVolume10Day || 0;
-
-    if (!price || price < MIN_PRICE || !previousClose) return null;
-
-    const change = price - previousClose;
-    const changePercent = (change / previousClose) * 100;
-    const volumeRatio = avgVolume > 0 ? volume / avgVolume : 0;
-
-    return {
-      symbol,
-      name: quote.longName || quote.shortName || symbol,
-      price,
-      change,
-      changePercent,
-      volume,
-      avgVolume,
-      volumeRatio,
-      previousClose,
-      timestamp: new Date()
-    };
-  } catch (error) {
-    console.error(`Error processing ${symbol}:`, error.message);
-    return null;
+  export async function getStockData(symbol) {
+    try {
+      const quote = await safeQuote(symbol);
+      if (!quote || !quote.price) return null;
+  
+      const priceData = quote.price;
+      const summaryData = quote.summaryDetail || {};
+      
+      const price = priceData.regularMarketPrice || priceData.regularMarketPrice?.raw;
+      const previousClose = priceData.regularMarketPreviousClose || priceData.regularMarketPreviousClose?.raw;
+      const volume = priceData.regularMarketVolume || priceData.regularMarketVolume?.raw;
+      const avgVolume = summaryData.averageVolume || summaryData.averageVolume10days || 0;
+  
+      if (!price || price < MIN_PRICE || !previousClose) return null;
+  
+      const change = price - previousClose;
+      const changePercent = (change / previousClose) * 100;
+      const volumeRatio = avgVolume > 0 ? volume / avgVolume : 0;
+  
+      return {
+        symbol,
+        name: priceData.longName || priceData.shortName || symbol,
+        price,
+        change,
+        changePercent,
+        volume,
+        avgVolume,
+        volumeRatio,
+        previousClose,
+        timestamp: new Date()
+      };
+    } catch (error) {
+      console.error(`Error processing ${symbol}:`, error.message);
+      return null;
+    }
   }
-}
 
 export async function getSignificantChanges(threshold = 3) {
-  console.log(`\n🔍 Scanning ${TOP_STOCKS.length} stocks (with 2s delay each)...`);
-  const results = [];
+    console.log(`\n🔍 Scanning ${TOP_STOCKS.length} stocks (with 5s delay each)...`);  const results = [];
 
   // Process ONE at a time to avoid rate limits
   for (const symbol of TOP_STOCKS) {
