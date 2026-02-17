@@ -1,1 +1,11 @@
-// Vercel deployment configuration - llenar con el código proporcionado
+{
+    "version": 2,
+    "name": "trading-alerts-app",
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "https://your-backend-url.railway.app/api/$1"
+      }
+    ]
+  }
+  
