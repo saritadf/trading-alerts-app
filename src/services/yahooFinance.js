@@ -99,3 +99,21 @@ export function isMarketOpen() {
   if (hour === 9 && minute < 30) return false;
   return true;
 }
+
+export function getMarketStatus() {
+  const isOpen = isMarketOpen();
+  const now = new Date();
+  const nyTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  
+  return {
+    isOpen,
+    currentTime: nyTime.toLocaleString('en-US', { 
+      timeZone: 'America/New_York',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    }),
+    timezone: 'America/New_York'
+  };
+}
