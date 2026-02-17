@@ -3,14 +3,14 @@ import YahooFinance from 'yahoo-finance2';
 const yahooFinance = new YahooFinance();
 
 // Top 20 US stocks only (reduced to avoid rate limits)
-const TOP_STOCKS = [
+const TOP_STOCKS 10 US stocks only (reduced for rate limits)
   'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BRK.B',
-  'JPM', 'V', 'JNJ', 'WMT', 'PG', 'MA', 'HD', 'DIS',
-  'PYPL', 'NFLX', 'ADBE', 'CRM'
+  'JPM', 'V'
+  
+  
 ];
 
-const DELAY_MS = 2000; // 2 seconds between requests
-const MAX_RETRIES = 2;
+const DELAY_MS = 5000; // 5 seconds between requestsconst MAX_RETRIES = 2;
 const MIN_PRICE = 5;
 
 function sleep(ms) {
