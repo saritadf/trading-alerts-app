@@ -350,8 +350,7 @@ function addChatMessage(text, type) {
   const container = document.getElementById('chatMessages');
   const div = document.createElement('div');
   div.className = `message ${type}-message`;
-  div.innerHTML = `<div class="message-content">${escapeHtml(text)}</div>`;
-  container.appendChild(div);
+  div.innerHTML = `<div class="message-content">${type === 'ai' ? formatMarkdown(text) : escapeHtml(text)}</div>`;  container.appendChild(div);
   container.scrollTop = container.scrollHeight;
 }
 
@@ -456,5 +455,28 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+// Convert markdown-like formatting to HTML
+function formatMarkdown(text) {
+  // Escape HTML first
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  
+  // Convert **bold** to <strong>
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  
+  // Convert line breaks (+ before bullet) to proper breaks
+  html = html.replace(/\s\+\s/g, '<br>');
+  
+  // Convert double line breaks
+  html = html.replace(/\n\n/g, '<br><br>');
+  
+  // Convert single line breaks to <br>
+  html = html.replace(/\n/g, '<br>');
+  
+  return html;
 }
 
