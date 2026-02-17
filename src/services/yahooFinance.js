@@ -1,9 +1,5 @@
-import YahooFinance from 'yahoo-finance2';
-
-const yahooFinance = new YahooFinance();
-
-// Top 20 US stocks only (reduced to avoid rate limits)
-const TOP_STOCKS 10 US stocks only (reduced for rate limits)
+// Top 10 US stocks only (reduced for rate limits)
+const TOP_STOCKS = [
   'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BRK.B',
   'JPM', 'V'
   
