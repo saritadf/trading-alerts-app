@@ -3,6 +3,7 @@ const API_BASE = window.location.origin;
 let alertsData = [];
 let currentFilter = 'all';
 let autoRefreshInterval = null;
+let currentInsight = null;
 
 // Settings with defaults
 let settings = {
@@ -27,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Load settings from localStorage
 function loadSettings() {
+    fetchDailyInsight();
+  setInterval(fetchDailyInsight, 5 * 60 * 1000);
   const saved = localStorage.getItem('tradingAlertsSettings');
   if (saved) {
     settings = { ...settings, ...JSON.parse(saved) };
@@ -478,5 +481,27 @@ function formatMarkdown(text) {
   html = html.replace(/\n/g, '<br>');
   
   return html;
+}
+
+// Daily Insight functions
+async function fetchDailyInsight() {
+  try {
+    const response = await fetch(`${API_BASE}/api/ai/insight`);
+    if (!response.ok) return;
+    const insight = await response.json();
+    currentInsight = insight;
+    displayInsight(insight);
+  } catch (error) {
+    console.error('Error fetching daily insight:', error);
+  }
+}
+
+function displayInsight(insight) {
+  const banner = document.getElementById('insightBanner');
+  const newsText = document.getElementById('insightNewsText');
+  const quoteText = document.getElementById('insightQuoteText');
+  newsText.textContent = insight.news;
+  quoteText.textContent = insight.quote;
+  banner.classList.remove('hidden');
 }
 
