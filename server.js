@@ -2,12 +2,17 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { existsSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ⚠️ CRÍTICO: Cargar dotenv ANTES de cualquier otro import
-dotenv.config({ path: path.join(__dirname, '.env') });
+// Load dotenv only if .env file exists (for local development)
+// Railway injects env vars directly, so .env is not needed
+const envPath = path.join(__dirname, '.env');
+if (existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+}
 
 import express from 'express';
 import cors from 'cors';
