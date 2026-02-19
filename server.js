@@ -15,6 +15,7 @@ import cors from 'cors';
 // Import routes and scanner
 import alertsRouter from './src/routes/alerts.js';
 import aiRouter from './src/routes/ai.js';
+import universesRouter from './src/routes/universes.js';
 import scanner from './src/services/scanner.js';
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(express.static('public'));
 // Routes
 app.use('/api/alerts', alertsRouter);
 app.use('/api/ai', aiRouter);
+app.use('/api/universes', universesRouter);
 
 // Health check
 app.get('/health', (req, res) => {

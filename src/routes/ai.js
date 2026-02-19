@@ -22,9 +22,10 @@ router.post('/chat', async (req, res) => {
       error: error.message,
       fallback: 'Lo siento, el servicio de AI está temporalmente no disponible. Por favor intenta de nuevo.'
     });
+  }
+});
 
-  
-  // Get daily insight
+// Get daily insight
 router.get('/insight', async (req, res) => {
   try {
     const insight = await getCurrentInsight();
@@ -44,7 +45,6 @@ router.post('/insight/refresh', async (req, res) => {
     console.error('Error refreshing insight:', error);
     res.status(500).json({ error: 'Error refrescando insight' });
   }
-});}
 });
 
 export default router;

@@ -1,0 +1,25 @@
+{
+  "name": "S&P 100",
+  "description": "Las 100 acciones más grandes de USA",
+  "symbols": [
+    "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA",
+    "META", "TSLA", "BRK.B", "JPM", "V",
+    "UNH", "MA", "XOM", "JNJ", "WMT",
+    "PG", "LLY", "AVGO", "CVX", "MRK",
+    "ABBV", "COST", "PEP", "ADBE", "CSCO",
+    "TMO", "ACN", "MCD", "NFLX", "CRM",
+    "AMD", "LIN", "DIS", "VZ", "ABT",
+    "NKE", "PM", "WFC", "CMCSA", "NEE",
+    "TXN", "RTX", "UPS", "QCOM", "AMGN",
+    "HON", "INTU", "AMAT", "SPGI", "DE",
+    "BKNG", "LOW", "ADP", "C", "SBUX",
+    "GE", "AXP", "GS", "BLK", "ELV",
+    "TJX", "GILD", "ISRG", "MDT", "ADI",
+    "SYK", "ZTS", "REGN", "CDNS", "SNPS",
+    "KLAC", "FTNT", "NXPI", "CTSH", "ANSS",
+    "MCHP", "CTAS", "FAST", "PAYX", "CPRT",
+    "NDAQ", "VRSN", "FDS", "EXPD", "CDW",
+    "WDAY", "TEAM", "ZM", "DOCN", "CRWD",
+    "OKTA", "NET", "DDOG", "MDB", "SNOW"
+  ]
+}

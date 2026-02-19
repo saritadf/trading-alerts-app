@@ -12,70 +12,56 @@ const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 let currentInsight = null;
 let lastUpdateTime = null;
 
-const UPDATE_TIMES = [
-  { hour: 9, minute: 30, name: 'apertura' },
-  { hour: 12, minute: 30, name: 'mediodía' },
-  { hour: 16, minute: 0, name: 'cierre' }
-];
-
-async function generateInsight(momentOfDay) {
+async function generateInsight() {
   try {
-    const fecha = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    const prompt = `Genera para traders del mercado USA:\n1. UNA noticia relevante (máx 2 líneas)\n2. UNA cita de Warren Buffett, Jesse Livermore o Paul Tudor Jones\n\nMomento: ${momentOfDay} - ${fecha}\nFormato: NOTICIA: [texto]\nCITA: "[cita]" - [Autor]`;
+    const fecha = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const prompt = `Generate for US market traders:\n1. THE TOP news story of the day affecting markets (max 2 lines, be specific)\n2. ONE inspirational trading quote from Warren Buffett, Jesse Livermore, Paul Tudor Jones, George Soros, or Ray Dalio\n\nDate: ${fecha}\nFormat: NEWS: [text]\nQUOTE: "[quote]" - [Author]`;
     const completion = await client.chat.completions.create({
-      messages: [{ role: 'system', content: 'Analista de mercados con insights concisos.' }, { role: 'user', content: prompt }],
+      messages: [{ role: 'system', content: 'Market analyst providing concise insights. Focus on the most impactful news of the day.' }, { role: 'user', content: prompt }],
       model: 'llama-3.3-70b-versatile',
       temperature: 0.7,
-      max_tokens: 250
+      max_tokens: 300
     });
     const response = completion.choices[0]?.message?.content || '';
-    const newsMatch = response.match(/NOTICIA:\s*(.+?)(?=\nCITA:|$)/s);
-    const quoteMatch = response.match(/CITA:\s*(.+)/);
-    return { news: newsMatch ? newsMatch[1].trim() : 'Mercado en análisis...', quote: quoteMatch ? quoteMatch[1].trim() : '"The trend is your friend." - Trading Wisdom', momentOfDay, timestamp: new Date() };
+    const newsMatch = response.match(/NEWS:\s*(.+?)(?=\nQUOTE:|$)/s);
+    const quoteMatch = response.match(/QUOTE:\s*(.+)/);
+    return { 
+      news: newsMatch ? newsMatch[1].trim() : 'Market analysis in progress...', 
+      quote: quoteMatch ? quoteMatch[1].trim() : '"The trend is your friend." - Trading Wisdom', 
+      timestamp: new Date() 
+    };
   } catch (error) {
-    console.error('Error:', error);
-    return { news: 'Mantente atento al mercado y gestiona tu riesgo.', quote: '"Risk comes from not knowing what you\'re doing." - Warren Buffett', momentOfDay, timestamp: new Date() };
+    console.error('Error generating insight:', error);
+    return { 
+      news: 'Stay alert to the market and manage your risk.', 
+      quote: '"Risk comes from not knowing what you\'re doing." - Warren Buffett', 
+      timestamp: new Date() 
+    };
   }
 }
 
 export async function getCurrentInsight() {
-  if (!currentInsight) {
-    const now = new Date();
-    const etTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-    const hour = etTime.getHours();
-    let moment = 'apertura';
-    if (hour >= 16) moment = 'cierre';
-    else if (hour >= 12) moment = 'mediodía';
-    currentInsight = await generateInsight(moment);
-    lastUpdateTime = new Date();
+  const now = new Date();
+  if (!currentInsight || !lastUpdateTime || (now - lastUpdateTime) > 3600000) {
+    currentInsight = await generateInsight();
+    lastUpdateTime = now;
+    console.log('✨ Daily insight updated');
   }
   return currentInsight;
 }
 
 export async function refreshInsight() {
-  const now = new Date();
-  const etTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-  const hour = etTime.getHours();
-  let moment = 'apertura';
-  if (hour >= 16) moment = 'cierre';
-  else if (hour >= 12) moment = 'mediodía';
-  currentInsight = await generateInsight(moment);
+  currentInsight = await generateInsight();
   lastUpdateTime = new Date();
+  console.log('✨ Daily insight refreshed manually');
   return currentInsight;
 }
 
 setInterval(async () => {
   const now = new Date();
-  const etTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-  const hour = etTime.getHours();
-  const minute = etTime.getMinutes();
-  for (const time of UPDATE_TIMES) {
-    if (hour === time.hour && Math.abs(minute - time.minute) < 5) {
-      if (!lastUpdateTime || (now - lastUpdateTime) > 3600000) {
-        currentInsight = await generateInsight(time.name);
-        lastUpdateTime = now;
-        console.log(`✨ Insight: ${time.name}`);
-      }
-    }
+  if (!lastUpdateTime || (now - lastUpdateTime) >= 3600000) {
+    currentInsight = await generateInsight();
+    lastUpdateTime = now;
+    console.log('✨ Daily insight auto-updated (hourly)');
   }
-}, 5 * 60 * 1000);
+}, 60 * 60 * 1000);
