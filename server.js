@@ -2,17 +2,12 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { existsSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load dotenv only if .env file exists (for local development)
-// Railway injects env vars directly, so .env is not needed
-const envPath = path.join(__dirname, '.env');
-if (existsSync(envPath)) {
-  dotenv.config({ path: envPath });
-}
+// Load dotenv (works with Railway env vars too)
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 import express from 'express';
 import cors from 'cors';
@@ -20,7 +15,7 @@ import cors from 'cors';
 // Import routes and scanner
 import alertsRouter from './src/routes/alerts.js';
 import aiRouter from './src/routes/ai.js';
-import universesRouter from './src/routes/universes.js';
+// import universesRouter from './src/routes/universes.js';
 import scanner from './src/services/scanner.js';
 
 const app = express();
@@ -34,7 +29,7 @@ app.use(express.static('public'));
 // Routes
 app.use('/api/alerts', alertsRouter);
 app.use('/api/ai', aiRouter);
-app.use('/api/universes', universesRouter);
+// app.use('/api/universes', universesRouter);
 
 // Health check
 app.get('/health', (req, res) => {
