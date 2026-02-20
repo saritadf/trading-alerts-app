@@ -1,19 +1,14 @@
 // src/services/finnhub.js
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { getUniverseSymbols } from './universes.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-dotenv.config({ path: path.join(__dirname, '../../.env') });
-
 const FINNHUB_API_BASE_URL = 'https://finnhub.io/api/v1';
-const API_KEY = process.env.FINNHUB_KEY;
 
-if (!API_KEY) {
-  throw new Error('FINNHUB_KEY is not set in environment variables');
+function getApiKey() {
+  const key = process.env.FINNHUB_KEY;
+  if (!key) {
+    throw new Error('FINNHUB_KEY is not set in environment variables');
+  }
+  return key;
 }
 
 const MIN_PRICE = 5;
@@ -26,6 +21,7 @@ function sleep(ms) {
 }
 
 async function fetchQuote(symbol) {
+  const API_KEY = getApiKey();
   const url = new URL(`${FINNHUB_API_BASE_URL}/quote`);
   url.searchParams.set('symbol', symbol);
   url.searchParams.set('token', API_KEY);
@@ -44,7 +40,7 @@ export async function getBatchQuotes(universeId = DEFAULT_UNIVERSE) {
   try {
     const allSymbols = getUniverseSymbols(universeId).slice(0, MAX_SYMBOLS_PER_SCAN);
     const quotes = {};
-    
+
     for (const symbol of allSymbols) {
       await sleep(DELAY_MS);
       const data = await fetchQuote(symbol);
@@ -114,20 +110,20 @@ export async function getSignificantChanges(options = {}) {
   } = options;
 
   const allSymbols = getUniverseSymbols(universeId).slice(0, MAX_SYMBOLS_PER_SCAN);
-  console.log(`\n🔍 Scanning ${allSymbols.length} stocks (${universeId}) with Finnhub...`);
+  console.log(`\n\u{1F50D} Scanning ${allSymbols.length} stocks (${universeId}) with Finnhub...`);
 
   const quotes = await getBatchQuotes(universeId);
   if (!quotes) return [];
 
   const scanTime = new Date();
   const results = [];
-  
+
   for (const [symbol, data] of Object.entries(quotes)) {
     const absChangePercent = Math.abs(data.changePercent);
-    
+
     if (absChangePercent >= normalThresholdPercent) {
       const severity = absChangePercent >= strongThresholdPercent ? 'high' : 'normal';
-      
+
       results.push({
         symbol,
         name: symbol,
@@ -145,11 +141,11 @@ export async function getSignificantChanges(options = {}) {
         universeId
       });
 
-      console.log(`✅ ${symbol}: ${data.changePercent.toFixed(2)}% (${severity})`);
+      console.log(`\u2705 ${symbol}: ${data.changePercent.toFixed(2)}% (${severity})`);
     }
   }
 
-  console.log(`\n📊 Found ${results.length} significant movements\n`);
+  console.log(`\n\u{1F4CA} Found ${results.length} significant movements\n`);
   return results.sort(
     (a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent)
   );
