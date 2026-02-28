@@ -4,6 +4,8 @@ import { getCurrentInsight, refreshInsight } from '../services/dailyInsights.js'
 
 const router = express.Router();
 
+const MAX_MESSAGE_LENGTH = 1000;
+
 // Chat with AI
 router.post('/chat', async (req, res) => {
   try {
@@ -12,8 +14,15 @@ router.post('/chat', async (req, res) => {
     if (!message || message.trim().length === 0) {
       return res.status(400).json({ error: 'Message is required' });
     }
+
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      return res.status(400).json({
+        error: `Message too long (max ${MAX_MESSAGE_LENGTH} characters)`
+      });
+    }
     
-    const response = await chat(message, context);
+    const sanitizedMessage = message.trim();
+    const response = await chat(sanitizedMessage, context);
     res.json({ success: true, response });
   } catch (error) {
     console.error('Error in chat:', error);
