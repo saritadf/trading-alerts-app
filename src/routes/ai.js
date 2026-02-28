@@ -29,7 +29,7 @@ router.post('/chat', async (req, res) => {
     res.status(500).json({
       success: false,
       error: error.message,
-      fallback: 'Sorry, the AI service is temporarily unavailable. Please try again.'
+      fallback: 'Lo siento, el servicio de IA no está disponible en este momento. Intenta de nuevo.'
     });
   }
 });

@@ -17,14 +17,14 @@ export const UNIVERSES = {
   SP100: {
     id: 'SP100',
     name: 'S&P 100',
-    description: 'Top 100 largest US stocks',
+    description: 'Las 100 acciones más grandes de EE.UU.',
     source: 'local-json',
     maxSymbols: 100
   },
   TECH_USA: {
     id: 'TECH_USA',
-    name: 'US Tech',
-    description: 'Large-cap US technology stocks',
+    name: 'Tecnología',
+    description: 'Grandes tecnológicas de EE.UU.',
     symbols: [
       'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA',
       'META', 'TSLA', 'AVGO', 'ADBE', 'CSCO',
@@ -38,8 +38,8 @@ export const UNIVERSES = {
   },
   BANKS_USA: {
     id: 'BANKS_USA',
-    name: 'Banks & Finance',
-    description: 'US banks and financial services',
+    name: 'Bancos',
+    description: 'Bancos y servicios financieros de EE.UU.',
     symbols: [
       'JPM', 'BAC', 'WFC', 'GS', 'MS',
       'C', 'BLK', 'AXP', 'COF', 'SCHW',
@@ -50,8 +50,8 @@ export const UNIVERSES = {
   },
   ENERGY: {
     id: 'ENERGY',
-    name: 'Energy & Commodities',
-    description: 'Energy sector and commodities',
+    name: 'Energía',
+    description: 'Sector energético y materias primas',
     symbols: [
       'XOM', 'CVX', 'SLB', 'EOG', 'COP',
       'MPC', 'VLO', 'PSX', 'HES', 'FANG',
@@ -61,8 +61,8 @@ export const UNIVERSES = {
   },
   CUSTOM: {
     id: 'CUSTOM',
-    name: 'My Stocks',
-    description: 'Custom personal watchlist',
+    name: 'Mis acciones',
+    description: 'Tu lista personal de acciones',
     source: 'local-json',
     maxSymbols: 50
   }

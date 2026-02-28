@@ -21,10 +21,10 @@ function getGroqClient() {
 async function generateInsight() {
   try {
     const groq = getGroqClient();
-    const fecha = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    const prompt = `Generate for US market traders:\n1. THE TOP news story of the day affecting markets (max 2 lines, be specific)\n2. ONE inspirational trading quote from Warren Buffett, Jesse Livermore, Paul Tudor Jones, George Soros, or Ray Dalio\n\nDate: ${fecha}\nFormat: NEWS: [text]\nQUOTE: "[quote]" - [Author]`;
+    const fecha = new Date().toLocaleDateString('es', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const prompt = `Genera para traders del mercado de EE.UU.:\n1. LA noticia más importante del día que afecta los mercados (máximo 2 líneas, sé específico)\n2. UNA frase inspiradora de trading de Warren Buffett, Jesse Livermore, Paul Tudor Jones, George Soros o Ray Dalio\n\nFecha: ${fecha}\nFormato: NEWS: [texto en español]\nQUOTE: "[frase en español]" - [Autor]`;
     const completion = await groq.chat.completions.create({
-      messages: [{ role: 'system', content: 'Market analyst providing concise insights. Focus on the most impactful news of the day.' }, { role: 'user', content: prompt }],
+      messages: [{ role: 'system', content: 'Analista de mercado que proporciona análisis concisos en español. Enfócate en la noticia más impactante del día.' }, { role: 'user', content: prompt }],
       model: 'llama-3.3-70b-versatile',
       temperature: 0.7,
       max_tokens: 300
@@ -33,15 +33,15 @@ async function generateInsight() {
     const newsMatch = response.match(/NEWS:\s*(.+?)(?=\nQUOTE:|$)/s);
     const quoteMatch = response.match(/QUOTE:\s*(.+)/);
     return {
-      news: newsMatch ? newsMatch[1].trim() : 'Market analysis in progress...',
-      quote: quoteMatch ? quoteMatch[1].trim() : '"The trend is your friend." - Trading Wisdom',
+      news: newsMatch ? newsMatch[1].trim() : 'Análisis de mercado en progreso...',
+      quote: quoteMatch ? quoteMatch[1].trim() : '"La tendencia es tu amiga." - Sabiduría del trading',
       timestamp: new Date()
     };
   } catch (error) {
     console.error('Error generating insight:', error);
     return {
-      news: 'Stay alert to the market and manage your risk.',
-      quote: '"Risk comes from not knowing what you\'re doing." - Warren Buffett',
+      news: 'Mantente atento al mercado y gestiona tu riesgo.',
+      quote: '"El riesgo viene de no saber lo que estás haciendo." - Warren Buffett',
       timestamp: new Date()
     };
   }

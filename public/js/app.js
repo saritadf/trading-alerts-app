@@ -215,7 +215,7 @@ async function fetchAlerts(forceRefresh = false) {
     if (forceRefresh && lastScanTime) {
       const timeSinceLastScan = (Date.now() - new Date(lastScanTime).getTime()) / 1000 / 60;
       if (timeSinceLastScan < 2) {
-        showToast(`Please wait before refreshing again (last scan ${Math.round(timeSinceLastScan)} min ago)`);
+        showToast(`Espera un momento antes de actualizar (último escaneo hace ${Math.round(timeSinceLastScan)} min)`);
         return;
       }
     }
@@ -265,7 +265,7 @@ async function fetchAlerts(forceRefresh = false) {
     }
   } catch (error) {
     console.error('Error fetching alerts:', error);
-    showError('Error loading alerts. Please check your connection.');
+    showError('Error cargando alertas. Revisa tu conexión a internet.');
   } finally {
     if (forceRefresh) {
       setTimeout(() => {
@@ -315,14 +315,14 @@ async function setUniverse(universeId) {
     const universe = universesData.find(u => u.id === universeId);
     if (universe) {
       document.getElementById('universeSubtitle').textContent =
-        `Scanning: ${universe.name} (updates every 15 min — free API)`;
+        `Escaneando: ${universe.name} (se actualiza cada 15 min)`;
     }
 
     // Refresh alerts
     fetchAlerts(true);
   } catch (error) {
     console.error('Error setting universe:', error);
-    showToast('Error switching universe');
+    showToast('Error al cambiar universo');
   }
 }
 
@@ -348,16 +348,16 @@ function updateMarketStatus(status) {
 
   if (status.isOpen) {
     badge.classList.add('open');
-    text.textContent = 'Market Open';
-    if (emptyTitle) emptyTitle.textContent = 'No alerts right now';
+    text.textContent = 'Mercado abierto';
+    if (emptyTitle) emptyTitle.textContent = 'Sin alertas por ahora';
     if (emptyDesc) emptyDesc.textContent =
-      'No big price moves detected yet. The app scans automatically — alerts will appear here when stocks move significantly.';
+      'No se detectaron movimientos grandes todavía. La app escanea automáticamente — las alertas aparecerán aquí cuando las acciones se muevan significativamente.';
   } else {
     badge.classList.remove('open');
-    text.textContent = 'Market Closed';
-    if (emptyTitle) emptyTitle.textContent = 'Market is closed';
+    text.textContent = 'Mercado cerrado';
+    if (emptyTitle) emptyTitle.textContent = 'El mercado está cerrado';
     if (emptyDesc) emptyDesc.textContent =
-      'The US stock market is closed right now (open Mon-Fri, 9:30 AM - 4:00 PM ET). Alerts will appear here when the market opens and stocks start moving.';
+      'La bolsa de EE.UU. está cerrada ahora (abre Lun-Vie, 9:30 AM - 4:00 PM hora de Nueva York). Las alertas aparecerán aquí cuando abra el mercado y las acciones empiecen a moverse.';
   }
 }
 
@@ -404,9 +404,9 @@ function renderAlerts(alerts) {
     const timestamp = alert.timestamp ? new Date(alert.timestamp) : now;
     const timeAgo = formatTimeAgo(timestamp, now);
     const isPositive = alert.changePercent > 0;
-    const severityText = alert.severity === 'high' ? 'Strong' : 'Moderate';
+    const severityText = alert.severity === 'high' ? 'Fuerte' : 'Moderada';
     const universeName = alert.universeId === 'SP100' ? 'S&P 100' :
-      alert.universeId === 'CUSTOM' ? 'My Stocks' :
+      alert.universeId === 'CUSTOM' ? 'Mis acciones' :
         alert.universeId || 'N/A';
 
     return `
@@ -417,31 +417,31 @@ function renderAlerts(alerts) {
           <p class="alert-name">${alert.name || 'Stock'} • ${timeAgo}</p>
         </div>
         <div class="alert-change ${isPositive ? 'positive' : 'negative'}">
-          ${isPositive ? '+' : ''}${alert.changePercent.toFixed(2)}% today
+          ${isPositive ? '+' : ''}${alert.changePercent.toFixed(2)}% hoy
         </div>
       </div>
       <div class="alert-details">
         <div class="alert-detail">
-          <span class="label">Change:</span>
+          <span class="label">Cambio:</span>
           <span class="value ${isPositive ? 'positive' : 'negative'}">
             ${isPositive ? '+' : ''}$${Math.abs(alert.change).toFixed(2)}
           </span>
         </div>
         <div class="alert-detail">
-          <span class="label">Price:</span>
+          <span class="label">Precio:</span>
           <span class="value">$${alert.price.toFixed(2)}</span>
         </div>
         <div class="alert-detail">
-          <span class="label">Severity:</span>
+          <span class="label">Severidad:</span>
           <span class="value severity-${alert.severity}">${severityText}</span>
         </div>
         <div class="alert-detail">
-          <span class="label">Universe:</span>
+          <span class="label">Universo:</span>
           <span class="value">${universeName}</span>
         </div>
       </div>
       <button class="alert-action" onclick="askAboutStock('${alert.symbol}')">
-        Analyze with AI
+        Analizar con IA
       </button>
     </div>
     `;
@@ -451,7 +451,7 @@ function renderAlerts(alerts) {
 
   if (highAlerts.length > 0) {
     html += `<div class="alert-section">
-      <h3 class="section-title section-high">Strong alerts (≥ 5%)</h3>
+      <h3 class="section-title section-high">Alertas fuertes (≥ 5%)</h3>
       <div class="alerts-grid-section">
         ${highAlerts.slice(0, settings.maxAlerts).map(renderAlertCard).join('')}
       </div>
@@ -460,7 +460,7 @@ function renderAlerts(alerts) {
 
   if (normalAlerts.length > 0) {
     html += `<div class="alert-section">
-      <h3 class="section-title section-normal">Moderate alerts (3–5%)</h3>
+      <h3 class="section-title section-normal">Alertas moderadas (3–5%)</h3>
       <div class="alerts-grid-section">
         ${normalAlerts.slice(0, settings.maxAlerts).map(renderAlertCard).join('')}
       </div>
@@ -492,8 +492,8 @@ function updateLastUpdate() {
   const now = new Date();
   const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   const lastUpdateEl = document.getElementById('lastUpdate');
-  lastUpdateEl.textContent = `Updated: ${timeString}`;
-  lastUpdateEl.title = `Last updated at ${now.toLocaleString()}`;
+  lastUpdateEl.textContent = `Actualizado: ${timeString}`;
+  lastUpdateEl.title = `Última actualización: ${now.toLocaleString('es')}`;
 }
 
 // Send chat message
@@ -528,7 +528,7 @@ async function sendChatMessage() {
     addChatMessage(data.response, 'ai');
   } catch (error) {
     console.error('Error sending message:', error);
-    addChatMessage('Sorry, there was an error. Please try again.', 'ai');
+    addChatMessage('Lo siento, hubo un error. Por favor intenta de nuevo.', 'ai');
   } finally {
     sendBtn.disabled = false;
   }
@@ -547,7 +547,7 @@ function addChatMessage(text, type) {
 window.askAboutStock = function(symbol) {
   document.getElementById('chatModal').classList.remove('hidden');
   const input = document.getElementById('chatInput');
-  input.value = `What can you tell me about ${symbol}? What's causing this movement?`;
+  input.value = `¿Qué me puedes decir sobre ${symbol}? ¿Qué está causando este movimiento?`;
   input.focus();
 };
 
@@ -569,7 +569,7 @@ function showError(message) {
       <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
       </svg>
-      <h3>Error</h3>
+      <h3>Error</h3><!-- universal -->
       <p>${message}</p>
     </div>
   `;
@@ -617,7 +617,7 @@ function showBrowserNotification(alert) {
 
   const title = `${alert.symbol} ${alert.changePercent > 0 ? '📈' : '📉'} ${alert.changePercent.toFixed(2)}%`;
   const options = {
-    body: `Price: $${alert.price.toFixed(2)} | Volume: ${(alert.volumeRatio || 0).toFixed(1)}x avg`,
+    body: `Precio: $${alert.price.toFixed(2)} | Volumen: ${(alert.volumeRatio || 0).toFixed(1)}x prom.`,
     icon: '/icon-192.png',
     badge: '/icon-192.png',
     tag: alert.symbol,
@@ -646,11 +646,11 @@ function formatTimeAgo(timestamp, now) {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return 'Just now';
-  if (diffMins < 60) return `${diffMins}m ago`;
-  if (diffHours < 24) return `${diffHours}h ago`;
-  if (diffDays < 7) return `${diffDays}d ago`;
-  return timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  if (diffMins < 1) return 'Ahora';
+  if (diffMins < 60) return `hace ${diffMins}m`;
+  if (diffHours < 24) return `hace ${diffHours}h`;
+  if (diffDays < 7) return `hace ${diffDays}d`;
+  return timestamp.toLocaleDateString('es', { month: 'short', day: 'numeric' });
 }
 
 function escapeHtml(text) {
@@ -702,7 +702,7 @@ function displayInsight(insight) {
 
   if (!insight) return;
 
-  newsText.textContent = insight.news || 'Market analysis in progress...';
+  newsText.textContent = insight.news || 'Análisis de mercado en progreso...';
 
   if (insight.quote) {
     quoteText.textContent = insight.quote;
@@ -734,10 +734,10 @@ async function renderUniversesList() {
         <div class="universe-info">
           <h4>${universe.name}</h4>
           <p>${universe.description || ''}</p>
-          <span class="universe-count">${universe.symbolsCount} symbols</span>
+          <span class="universe-count">${universe.symbolsCount} acciones</span>
         </div>
         <button class="btn-secondary view-symbols-btn" data-universe-id="${universe.id}">
-          View symbols
+          Ver acciones
         </button>
       </div>
     `).join('');
@@ -773,7 +773,7 @@ async function viewUniverseSymbols(universeId) {
     const textarea = document.getElementById('universeSymbolsTextarea');
 
     title.textContent = universe.name;
-    help.textContent = `Edit symbols separated by commas. Maximum ${universe.maxSymbols} symbols.`;
+    help.textContent = `Edita los símbolos separados por comas. Máximo ${universe.maxSymbols} acciones.`;
     textarea.value = universe.symbols.join(', ');
 
     editor.classList.remove('hidden');
@@ -813,7 +813,7 @@ function renderCustomSymbolsList() {
         </svg>
       </button>
     </div>
-  `).join('') || '<p class="empty-text">No symbols added yet</p>';
+  `).join('') || '<p class="empty-text">No hay acciones agregadas</p>';
 
   container.querySelectorAll('.remove-symbol').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -831,12 +831,12 @@ function addCustomSymbol() {
   if (!symbol) return;
 
   if (customSymbolsTemp.includes(symbol)) {
-    showToast('This symbol is already in the list');
+    showToast('Este símbolo ya está en la lista');
     return;
   }
 
   if (customSymbolsTemp.length >= 50) {
-    showToast('Maximum 50 symbols allowed');
+    showToast('Máximo 50 acciones permitidas');
     return;
   }
 
@@ -858,13 +858,13 @@ async function saveCustomUniverse() {
     }
 
     document.getElementById('customUniverseEditor').classList.add('hidden');
-    showToast('Watchlist saved successfully');
+    showToast('Lista guardada correctamente');
 
     // Refresh universes data
     await fetchUniverses();
   } catch (error) {
     console.error('Error saving custom universe:', error);
-    showToast('Error saving watchlist');
+    showToast('Error al guardar la lista');
   }
 }
 
@@ -881,7 +881,7 @@ async function saveUniverse() {
       .filter(s => s.length > 0);
 
     if (symbols.length > currentEditingUniverse.maxSymbols) {
-      alert(`Maximum ${currentEditingUniverse.maxSymbols} symbols allowed`);
+      alert(`Máximo ${currentEditingUniverse.maxSymbols} acciones permitidas`);
       return;
     }
 
@@ -893,12 +893,12 @@ async function saveUniverse() {
 
     if (!response.ok) {
       const error = await response.json();
-      alert(error.error || 'Error saving changes');
+      alert(error.error || 'Error al guardar');
       return;
     }
 
     const result = await response.json();
-    showToast('Changes saved successfully');
+    showToast('Cambios guardados correctamente');
 
     document.getElementById('universeEditor').classList.add('hidden');
     currentEditingUniverse = null;
@@ -907,7 +907,7 @@ async function saveUniverse() {
     await renderUniversesList();
   } catch (error) {
     console.error('Error saving universe:', error);
-    alert('Error saving changes');
+    alert('Error al guardar los cambios');
   }
 }
 

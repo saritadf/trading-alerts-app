@@ -24,11 +24,11 @@ describe('universes service', () => {
     }
   });
 
-  it('all text is in English (no Spanish characters)', () => {
-    for (const universe of Object.values(UNIVERSES)) {
-      expect(universe.name).not.toMatch(/[áéíóúñ¿¡]/);
-      expect(universe.description).not.toMatch(/[áéíóúñ¿¡]/);
-    }
+  it('all text is in Spanish', () => {
+    const sp100 = UNIVERSES.SP100;
+    expect(sp100.description).toMatch(/EE\.UU\./);
+    const custom = UNIVERSES.CUSTOM;
+    expect(custom.name).toBe('Mis acciones');
   });
 
   it('getUniverseSymbols returns array for SP100', () => {

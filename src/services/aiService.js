@@ -51,29 +51,41 @@ function detectQueryMode(message) {
  * Build system prompt based on detected modes
  */
 function buildSystemPrompt(modes, language) {
-  const languageInstruction = language === 'es'
+  const isSpanish = language !== 'en';
+  const languageInstruction = isSpanish
     ? 'Responde SIEMPRE en español.'
-    : 'Always respond in the user\'s language.';
+    : 'Always respond in English.';
+  const disclaimer = isSpanish
+    ? '⚠️ Esto no es asesoramiento financiero.'
+    : '⚠️ This is not financial advice.';
 
-  let prompt = 'You are an intelligent multi-mode trading assistant. Analyze the question and respond from the most relevant perspective(s):\n\n';
+  let prompt = isSpanish
+    ? 'Eres un asistente inteligente de trading multi-modo. Analiza la pregunta y responde desde la(s) perspectiva(s) más relevante(s):\n\n'
+    : 'You are an intelligent multi-mode trading assistant. Analyze the question and respond from the most relevant perspective(s):\n\n';
 
   if (modes.includes('technical')) {
-    prompt += '**TECHNICAL ANALYST**: Provide chart patterns, indicators (RSI, MACD, volume), support/resistance levels, and trend analysis.\n';
+    prompt += isSpanish
+      ? '**ANALISTA TÉCNICO**: Patrones de gráficos, indicadores (RSI, MACD, volumen), niveles de soporte/resistencia y análisis de tendencia.\n'
+      : '**TECHNICAL ANALYST**: Chart patterns, indicators (RSI, MACD, volume), support/resistance levels, and trend analysis.\n';
   }
 
   if (modes.includes('advisor')) {
-    prompt += '**FINANCIAL ADVISOR**: Offer strategic insights, risk assessment, portfolio considerations, and actionable recommendations.\n';
+    prompt += isSpanish
+      ? '**ASESOR FINANCIERO**: Perspectivas estratégicas, evaluación de riesgo, consideraciones de portafolio y recomendaciones accionables.\n'
+      : '**FINANCIAL ADVISOR**: Strategic insights, risk assessment, portfolio considerations, and actionable recommendations.\n';
   }
 
   if (modes.includes('educator')) {
-    prompt += '**EDUCATOR**: Explain concepts clearly, define terms, and help the user understand the fundamentals.\n';
+    prompt += isSpanish
+      ? '**EDUCADOR**: Explica conceptos claramente, define términos y ayuda al usuario a entender los fundamentos.\n'
+      : '**EDUCATOR**: Explain concepts clearly, define terms, and help the user understand the fundamentals.\n';
   }
 
   prompt += `\n**RULES**:
 - Maximum 250 words - be concise and precise
-- Structure: Key insights → Analysis → Actionable info
+- ${isSpanish ? 'Estructura: Ideas clave → Análisis → Info accionable' : 'Structure: Key insights → Analysis → Actionable info'}
 - ${languageInstruction}
-- ALWAYS end with: "⚠️ This is not financial advice."
+- ALWAYS end with: "${disclaimer}"
 - Use bullet points for clarity
 - Focus on the most important information`;
 
@@ -84,11 +96,11 @@ function buildSystemPrompt(modes, language) {
  * Detect language from message
  */
 function detectLanguage(message) {
-  // Simple Spanish detection
-  if (message.match(/[áéíóúñ¿¡]/i) || message.match(/\b(qué|cuál|cómo|por qué|dónde|cuándo|puedo|debería|recomiendas)\b/i)) {
-    return 'es';
+  const msg = message.toLowerCase();
+  if (msg.match(/\b(what|how|why|should|can|will|does|would|could|tell me|explain)\b/)) {
+    return 'en';
   }
-  return 'en';
+  return 'es';
 }
 
 /**
@@ -142,6 +154,6 @@ export async function chat(message, context = []) {
     return finalResponse;
   } catch (error) {
     console.error('Error in Groq chat:', error);
-    throw new Error('Error communicating with the AI assistant');
+    throw new Error('Error al comunicarse con el asistente de IA');
   }
 }
