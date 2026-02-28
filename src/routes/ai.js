@@ -10,7 +10,7 @@ const MAX_MESSAGE_LENGTH = 1000;
 router.post('/chat', async (req, res) => {
   try {
     const { message, context } = req.body;
-    
+
     if (!message || message.trim().length === 0) {
       return res.status(400).json({ error: 'Message is required' });
     }
@@ -20,14 +20,14 @@ router.post('/chat', async (req, res) => {
         error: `Message too long (max ${MAX_MESSAGE_LENGTH} characters)`
       });
     }
-    
+
     const sanitizedMessage = message.trim();
     const response = await chat(sanitizedMessage, context);
     res.json({ success: true, response });
   } catch (error) {
     console.error('Error in chat:', error);
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       error: error.message,
       fallback: 'Sorry, the AI service is temporarily unavailable. Please try again.'
     });

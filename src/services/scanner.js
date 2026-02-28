@@ -1,4 +1,4 @@
-import { getSignificantChanges, isMarketOpen, getMarketStatus } from './finnhub.js';
+import { getSignificantChanges, getMarketStatus } from './finnhub.js';
 
 class MarketScanner {
   constructor() {
@@ -10,7 +10,7 @@ class MarketScanner {
     this.activeUniverse = process.env.DEFAULT_UNIVERSE || 'SP100';
     this.normalThresholdPercent = parseFloat(process.env.NORMAL_THRESHOLD || '3');
     this.strongThresholdPercent = parseFloat(process.env.STRONG_THRESHOLD || '5');
-    
+
     // Cache and state by universe
     this.lastScanTimeByUniverse = {};
     this.cachedAlertsByUniverse = {};
@@ -24,13 +24,13 @@ class MarketScanner {
    */
   start() {
     console.log(`🚀 Starting market scanner (every ${this.scanIntervalMinutes} minutes)`);
-    
+
     const universes = (process.env.SCAN_UNIVERSES || this.activeUniverse).split(',').map(u => u.trim());
     console.log(`📋 Scanning universes: ${universes.join(', ')}`);
-    
+
     // Initial scan of active universe
     this.performScanForUniverse(this.activeUniverse);
-    
+
     // Schedule periodic scans with round-robin
     this.scanInterval = setInterval(() => {
       const universeId = universes[this.scanUniverseIndex % universes.length];
@@ -56,7 +56,7 @@ class MarketScanner {
   async performScanForUniverse(universeId) {
     try {
       const status = getMarketStatus();
-      
+
       if (!status.isOpen) {
         console.log(`💤 Market closed - skipping scan for ${universeId} (${status.currentTime})`);
         return {
@@ -69,36 +69,36 @@ class MarketScanner {
       }
 
       console.log(`📊 Performing market scan for universe ${universeId}...`);
-      
+
       const alerts = await getSignificantChanges({
         universeId,
         normalThresholdPercent: this.normalThresholdPercent,
         strongThresholdPercent: this.strongThresholdPercent
       });
-      
+
       const nowIso = new Date().toISOString();
       this.lastScanTimeByUniverse[universeId] = nowIso;
       this.cachedAlertsByUniverse[universeId] = alerts.map(alert => ({
         ...alert,
         universeId
       }));
-      
+
       // Update highPrioritySymbols: symbols that exceed normal threshold
       alerts.forEach(a => {
         if (Math.abs(a.changePercent) >= this.normalThresholdPercent) {
           this.highPrioritySymbols.add(a.symbol);
         }
       });
-      
+
       // If matches active universe, also update legacy properties
       if (universeId === this.activeUniverse) {
         this.lastScan = nowIso;
         this.latestAlerts = this.cachedAlertsByUniverse[universeId];
       }
-      
+
       // Notify subscribers
       this.notifySubscribers(alerts);
-      
+
       return {
         alerts: this.cachedAlertsByUniverse[universeId],
         lastScan: nowIso,
@@ -130,7 +130,7 @@ class MarketScanner {
   getCachedAlerts(universeId) {
     const alerts = this.cachedAlertsByUniverse[universeId] || [];
     const lastScanTime = this.lastScanTimeByUniverse[universeId] || null;
-    
+
     if (!lastScanTime) {
       return {
         alerts: [],
@@ -139,11 +139,11 @@ class MarketScanner {
         ageMinutes: null
       };
     }
-    
+
     const ageMs = Date.now() - new Date(lastScanTime).getTime();
     const ageMinutes = Math.floor(ageMs / (1000 * 60));
     const stale = ageMinutes >= this.minForceScanGapMinutes;
-    
+
     return {
       alerts,
       lastScan: lastScanTime,
@@ -205,7 +205,7 @@ class MarketScanner {
     if (!this.highPrioritySymbols.size) {
       return { alerts: [], message: 'No high priority symbols' };
     }
-    
+
     const symbols = Array.from(this.highPrioritySymbols).slice(0, 20);
     // TODO: Implement lightweight scan for specific symbols
     // This would require a new method in finnhub.js that accepts symbol list
