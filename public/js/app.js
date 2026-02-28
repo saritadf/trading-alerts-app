@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchAlerts();
   fetchMarketStatus();
   startAutoRefresh();
-  requestNotificationPermission();
 });
 
 // Load settings from localStorage
@@ -340,17 +339,25 @@ async function fetchMarketStatus() {
   }
 }
 
-// Update market status badge
+// Update market status badge and empty state
 function updateMarketStatus(status) {
   const badge = document.getElementById('marketStatus');
   const text = document.getElementById('statusText');
+  const emptyTitle = document.getElementById('emptyTitle');
+  const emptyDesc = document.getElementById('emptyDescription');
 
   if (status.isOpen) {
     badge.classList.add('open');
     text.textContent = 'Market Open';
+    if (emptyTitle) emptyTitle.textContent = 'No alerts right now';
+    if (emptyDesc) emptyDesc.textContent =
+      'No big price moves detected yet. The app scans automatically — alerts will appear here when stocks move significantly.';
   } else {
     badge.classList.remove('open');
     text.textContent = 'Market Closed';
+    if (emptyTitle) emptyTitle.textContent = 'Market is closed';
+    if (emptyDesc) emptyDesc.textContent =
+      'The US stock market is closed right now (open Mon-Fri, 9:30 AM - 4:00 PM ET). Alerts will appear here when the market opens and stocks start moving.';
   }
 }
 
@@ -610,7 +617,7 @@ function showBrowserNotification(alert) {
 
   const title = `${alert.symbol} ${alert.changePercent > 0 ? '📈' : '📉'} ${alert.changePercent.toFixed(2)}%`;
   const options = {
-    body: `Precio: $${alert.price.toFixed(2)} | Volumen: ${(alert.volumeRatio || 0).toFixed(1)}x`,
+    body: `Price: $${alert.price.toFixed(2)} | Volume: ${(alert.volumeRatio || 0).toFixed(1)}x avg`,
     icon: '/icon-192.png',
     badge: '/icon-192.png',
     tag: alert.symbol,
