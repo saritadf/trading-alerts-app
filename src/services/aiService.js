@@ -142,6 +142,6 @@ export async function chat(message, context = []) {
     return finalResponse;
   } catch (error) {
     console.error('Error in Groq chat:', error);
-    throw new Error('Error al comunicarse con el asistente AI');
+    throw new Error('Error communicating with the AI assistant');
   }
 }

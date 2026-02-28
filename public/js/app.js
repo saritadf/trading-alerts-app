@@ -216,7 +216,7 @@ async function fetchAlerts(forceRefresh = false) {
     if (forceRefresh && lastScanTime) {
       const timeSinceLastScan = (Date.now() - new Date(lastScanTime).getTime()) / 1000 / 60;
       if (timeSinceLastScan < 2) {
-        showToast(`Espera un poco para no saturar la API (último scan hace ${Math.round(timeSinceLastScan)} min)`);
+        showToast(`Please wait before refreshing again (last scan ${Math.round(timeSinceLastScan)} min ago)`);
         return;
       }
     }
@@ -316,14 +316,14 @@ async function setUniverse(universeId) {
     const universe = universesData.find(u => u.id === universeId);
     if (universe) {
       document.getElementById('universeSubtitle').textContent = 
-        `Escaneando: ${universe.name} (actualizando cada 15 min – API gratuita)`;
+        `Scanning: ${universe.name} (updates every 15 min — free API)`;
     }
     
     // Refresh alerts
     fetchAlerts(true);
   } catch (error) {
     console.error('Error setting universe:', error);
-    showToast('Error al cambiar universo');
+    showToast('Error switching universe');
   }
 }
 
@@ -397,9 +397,9 @@ function renderAlerts(alerts) {
     const timestamp = alert.timestamp ? new Date(alert.timestamp) : now;
     const timeAgo = formatTimeAgo(timestamp, now);
     const isPositive = alert.changePercent > 0;
-    const severityText = alert.severity === 'high' ? 'Fuerte' : 'Moderada';
+    const severityText = alert.severity === 'high' ? 'Strong' : 'Moderate';
     const universeName = alert.universeId === 'SP100' ? 'S&P 100' : 
-                        alert.universeId === 'CUSTOM' ? 'Mis acciones' :
+                        alert.universeId === 'CUSTOM' ? 'My Stocks' :
                         alert.universeId || 'N/A';
     
     return `
@@ -410,31 +410,31 @@ function renderAlerts(alerts) {
           <p class="alert-name">${alert.name || 'Stock'} • ${timeAgo}</p>
         </div>
         <div class="alert-change ${isPositive ? 'positive' : 'negative'}">
-          ${isPositive ? '+' : ''}${alert.changePercent.toFixed(2)}% hoy
+          ${isPositive ? '+' : ''}${alert.changePercent.toFixed(2)}% today
         </div>
       </div>
       <div class="alert-details">
         <div class="alert-detail">
-          <span class="label">Cambio:</span>
+          <span class="label">Change:</span>
           <span class="value ${isPositive ? 'positive' : 'negative'}">
             ${isPositive ? '+' : ''}$${Math.abs(alert.change).toFixed(2)}
           </span>
         </div>
         <div class="alert-detail">
-          <span class="label">Precio:</span>
+          <span class="label">Price:</span>
           <span class="value">$${alert.price.toFixed(2)}</span>
         </div>
         <div class="alert-detail">
-          <span class="label">Severidad:</span>
+          <span class="label">Severity:</span>
           <span class="value severity-${alert.severity}">${severityText}</span>
         </div>
         <div class="alert-detail">
-          <span class="label">Universo:</span>
+          <span class="label">Universe:</span>
           <span class="value">${universeName}</span>
         </div>
       </div>
       <button class="alert-action" onclick="askAboutStock('${alert.symbol}')">
-        Analizar con AI
+        Analyze with AI
       </button>
     </div>
     `;
@@ -444,7 +444,7 @@ function renderAlerts(alerts) {
   
   if (highAlerts.length > 0) {
     html += `<div class="alert-section">
-      <h3 class="section-title section-high">Alertas fuertes (≥ 5%)</h3>
+      <h3 class="section-title section-high">Strong alerts (≥ 5%)</h3>
       <div class="alerts-grid-section">
         ${highAlerts.slice(0, settings.maxAlerts).map(renderAlertCard).join('')}
       </div>
@@ -453,7 +453,7 @@ function renderAlerts(alerts) {
   
   if (normalAlerts.length > 0) {
     html += `<div class="alert-section">
-      <h3 class="section-title section-normal">Alertas moderadas (3–5%)</h3>
+      <h3 class="section-title section-normal">Moderate alerts (3–5%)</h3>
       <div class="alerts-grid-section">
         ${normalAlerts.slice(0, settings.maxAlerts).map(renderAlertCard).join('')}
       </div>
@@ -727,10 +727,10 @@ async function renderUniversesList() {
         <div class="universe-info">
           <h4>${universe.name}</h4>
           <p>${universe.description || ''}</p>
-          <span class="universe-count">${universe.symbolsCount} símbolos</span>
+          <span class="universe-count">${universe.symbolsCount} symbols</span>
         </div>
         <button class="btn-secondary view-symbols-btn" data-universe-id="${universe.id}">
-          Ver símbolos
+          View symbols
         </button>
       </div>
     `).join('');
@@ -766,7 +766,7 @@ async function viewUniverseSymbols(universeId) {
     const textarea = document.getElementById('universeSymbolsTextarea');
     
     title.textContent = universe.name;
-    help.textContent = `Edita los símbolos separados por comas. Máximo ${universe.maxSymbols} símbolos.`;
+    help.textContent = `Edit symbols separated by commas. Maximum ${universe.maxSymbols} symbols.`;
     textarea.value = universe.symbols.join(', ');
     
     editor.classList.remove('hidden');
@@ -806,7 +806,7 @@ function renderCustomSymbolsList() {
         </svg>
       </button>
     </div>
-  `).join('') || '<p class="empty-text">No hay símbolos añadidos</p>';
+  `).join('') || '<p class="empty-text">No symbols added yet</p>';
   
   container.querySelectorAll('.remove-symbol').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -824,12 +824,12 @@ function addCustomSymbol() {
   if (!symbol) return;
   
   if (customSymbolsTemp.includes(symbol)) {
-    showToast('Este símbolo ya está en la lista');
+    showToast('This symbol is already in the list');
     return;
   }
   
   if (customSymbolsTemp.length >= 50) {
-    showToast('Máximo 50 símbolos permitidos');
+    showToast('Maximum 50 symbols allowed');
     return;
   }
   
@@ -851,13 +851,13 @@ async function saveCustomUniverse() {
     }
     
     document.getElementById('customUniverseEditor').classList.add('hidden');
-    showToast('Watchlist guardada correctamente');
+    showToast('Watchlist saved successfully');
     
     // Refresh universes data
     await fetchUniverses();
   } catch (error) {
     console.error('Error saving custom universe:', error);
-    showToast('Error al guardar watchlist');
+    showToast('Error saving watchlist');
   }
 }
 
@@ -874,7 +874,7 @@ async function saveUniverse() {
       .filter(s => s.length > 0);
     
     if (symbols.length > currentEditingUniverse.maxSymbols) {
-      alert(`Máximo ${currentEditingUniverse.maxSymbols} símbolos permitidos`);
+      alert(`Maximum ${currentEditingUniverse.maxSymbols} symbols allowed`);
       return;
     }
     
@@ -886,12 +886,12 @@ async function saveUniverse() {
     
     if (!response.ok) {
       const error = await response.json();
-      alert(error.error || 'Error al guardar');
+      alert(error.error || 'Error saving changes');
       return;
     }
     
     const result = await response.json();
-    showToast('Cambios guardados correctamente');
+    showToast('Changes saved successfully');
     
     document.getElementById('universeEditor').classList.add('hidden');
     currentEditingUniverse = null;
@@ -900,7 +900,7 @@ async function saveUniverse() {
     await renderUniversesList();
   } catch (error) {
     console.error('Error saving universe:', error);
-    alert('Error al guardar los cambios');
+    alert('Error saving changes');
   }
 }
 

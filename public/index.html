@@ -175,7 +175,7 @@
           </div>
           
           <div class="setting-group">
-            <button class="btn-secondary" id="universesConfigBtn">Universos y listas</button>
+            <button class="btn-secondary" id="universesConfigBtn">Universes & watchlists</button>
           </div>
         </div>
       </div>
@@ -186,7 +186,7 @@
       <div class="modal-backdrop"></div>
       <div class="modal-content modal-large">
         <div class="modal-header">
-          <h2>Universos y listas</h2>
+          <h2>Universes & Watchlists</h2>
           <button class="icon-btn" id="closeUniverses">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -202,27 +202,27 @@
           <div id="universeEditor" class="universe-editor hidden">
             <h3 id="universeEditorTitle"></h3>
             <p class="help-text" id="universeEditorHelp"></p>
-            <textarea id="universeSymbolsTextarea" class="symbols-textarea" placeholder="Símbolos separados por comas (ej: AAPL, MSFT, GOOGL)"></textarea>
+            <textarea id="universeSymbolsTextarea" class="symbols-textarea" placeholder="Symbols separated by commas (e.g. AAPL, MSFT, GOOGL)"></textarea>
             <div class="modal-actions">
-              <button class="btn-primary" id="saveUniverseBtn">Guardar</button>
-              <button class="btn-secondary" id="cancelUniverseBtn">Cancelar</button>
+              <button class="btn-primary" id="saveUniverseBtn">Save</button>
+              <button class="btn-secondary" id="cancelUniverseBtn">Cancel</button>
             </div>
           </div>
           
           <!-- Custom Universe Editor -->
           <div id="customUniverseEditor" class="custom-universe-editor hidden">
-            <h3>Mis acciones</h3>
-            <p class="help-text">Máximo 50 acciones en 'Mis acciones' para mantener la app rápida con API gratuita.</p>
+            <h3>My Stocks</h3>
+            <p class="help-text">Maximum 50 stocks in 'My Stocks' to keep the app fast with the free API.</p>
             <div class="add-symbol-form">
-              <input type="text" id="newSymbolInput" placeholder="Símbolo (ej: AAPL)" class="input" maxlength="10">
-              <button class="btn-primary" id="addSymbolBtn">Añadir</button>
+              <input type="text" id="newSymbolInput" placeholder="Symbol (e.g. AAPL)" class="input" maxlength="10">
+              <button class="btn-primary" id="addSymbolBtn">Add</button>
             </div>
             <div id="customSymbolsList" class="symbols-list">
               <!-- Custom symbols will be listed here -->
             </div>
             <div class="modal-actions">
-              <button class="btn-primary" id="saveCustomBtn">Guardar cambios</button>
-              <button class="btn-secondary" id="cancelCustomBtn">Cancelar</button>
+              <button class="btn-primary" id="saveCustomBtn">Save changes</button>
+              <button class="btn-secondary" id="cancelCustomBtn">Cancel</button>
             </div>
           </div>
         </div>

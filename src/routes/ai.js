@@ -20,7 +20,7 @@ router.post('/chat', async (req, res) => {
     res.status(500).json({ 
       success: false, 
       error: error.message,
-      fallback: 'Lo siento, el servicio de AI está temporalmente no disponible. Por favor intenta de nuevo.'
+      fallback: 'Sorry, the AI service is temporarily unavailable. Please try again.'
     });
   }
 });
@@ -32,7 +32,7 @@ router.get('/insight', async (req, res) => {
     res.json(insight);
   } catch (error) {
     console.error('Error getting insight:', error);
-    res.status(500).json({ error: 'Error obteniendo insight' });
+    res.status(500).json({ error: 'Error fetching insight' });
   }
 });
 
@@ -43,7 +43,7 @@ router.post('/insight/refresh', async (req, res) => {
     res.json(insight);
   } catch (error) {
     console.error('Error refreshing insight:', error);
-    res.status(500).json({ error: 'Error refrescando insight' });
+    res.status(500).json({ error: 'Error refreshing insight' });
   }
 });
 
