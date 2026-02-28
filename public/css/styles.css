@@ -956,4 +956,66 @@ body.light-mode .info-banner {
   .toast.show { transform: translateY(0); }
 
   .add-symbol-form { flex-direction: column; }
+
+  .quote-footer { bottom: 0; }
+}
+
+/* ====== QUOTE FOOTER BAR ====== */
+
+.quote-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quote-footer.minimized {
+  transform: translateY(calc(100% - 36px));
+}
+
+.quote-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.quote-toggle:hover {
+  color: var(--text);
+}
+
+.quote-chevron {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.quote-footer.minimized .quote-chevron {
+  transform: rotate(180deg);
+}
+
+.quote-footer-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quote-footer.minimized .quote-footer-text {
+  white-space: nowrap;
 }

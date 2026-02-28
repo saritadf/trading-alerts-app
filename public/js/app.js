@@ -206,6 +206,10 @@ function setupEventListeners() {
   document.getElementById('cancelCustomBtn')?.addEventListener('click', () => {
     document.getElementById('customUniverseEditor').classList.add('hidden');
   });
+
+  document.getElementById('quoteToggle')?.addEventListener('click', () => {
+    document.getElementById('quoteFooter').classList.toggle('minimized');
+  });
 }
 
 // Fetch alerts from API
@@ -698,20 +702,18 @@ async function fetchDailyInsight() {
 function displayInsight(insight) {
   const banner = document.getElementById('insightBanner');
   const newsText = document.getElementById('insightNewsText');
-  const quoteText = document.getElementById('insightQuoteText');
+  const quoteFooter = document.getElementById('quoteFooter');
+  const quoteFooterText = document.getElementById('quoteFooterText');
 
   if (!insight) return;
 
   newsText.textContent = insight.news || 'Análisis de mercado en progreso...';
-
-  if (insight.quote) {
-    quoteText.textContent = insight.quote;
-    quoteText.classList.remove('hidden');
-  } else {
-    quoteText.classList.add('hidden');
-  }
-
   banner.classList.remove('hidden');
+
+  if (insight.quote && quoteFooter && quoteFooterText) {
+    quoteFooterText.textContent = insight.quote;
+    quoteFooter.classList.remove('hidden');
+  }
 }
 
 // Universes management
