@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía - Alertas de Trading</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0f1a;
+      color: #f1f5f9;
+      line-height: 1.8;
+      padding: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 1.8rem; margin-bottom: 8px; color: #4f8cff; }
+    h2 { font-size: 1.3rem; margin: 32px 0 12px; color: #4f8cff; border-bottom: 1px solid #1a2340; padding-bottom: 8px; }
+    h3 { font-size: 1.1rem; margin: 20px 0 8px; }
+    p { margin-bottom: 14px; color: #c8d3e3; }
+    .subtitle { color: #7d8da6; font-size: 1rem; margin-bottom: 24px; }
+    .step { background: #141b2d; border-radius: 12px; padding: 18px; margin-bottom: 14px; border-left: 3px solid #4f8cff; }
+    .step-number { color: #4f8cff; font-weight: 700; font-size: 1.1rem; }
+    .tip { background: rgba(52, 211, 153, 0.08); border-radius: 12px; padding: 16px; margin: 14px 0; border-left: 3px solid #34d399; }
+    .tip-label { color: #34d399; font-weight: 700; }
+    .warning { background: rgba(248, 113, 113, 0.08); border-radius: 12px; padding: 16px; margin: 14px 0; border-left: 3px solid #f87171; }
+    .warning-label { color: #f87171; font-weight: 700; }
+    .back-link { display: inline-block; margin-bottom: 20px; color: #4f8cff; text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { text-decoration: underline; }
+    strong { color: #f1f5f9; }
+    ul { margin: 8px 0 14px 20px; color: #c8d3e3; }
+    li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <a href="/" class="back-link">&larr; Volver a la app</a>
+
+  <h1>Guía de uso</h1>
+  <p class="subtitle">Todo lo que necesitas saber para usar Alertas de Trading</p>
+
+  <h2>¿Qué hace esta app?</h2>
+  <p>Esta app <strong>vigila las acciones más importantes de Estados Unidos</strong> (como Apple, Google, Amazon, etc.) y te avisa automáticamente cuando alguna sube o baja mucho de precio.</p>
+  <p>Es como tener un asistente que está mirando el mercado todo el día por ti y te dice: <strong>"¡Oye, NVIDIA bajó 4% hoy!"</strong></p>
+
+  <h2>¿Cuándo funciona?</h2>
+  <div class="step">
+    <p>La bolsa de Estados Unidos (NYSE y NASDAQ) abre de <strong>lunes a viernes</strong>, de <strong>9:30 AM a 4:00 PM</strong> hora de Nueva York.</p>
+    <p>Cuando el mercado está <strong>cerrado</strong> (fines de semana, feriados, o fuera de horario), la app te muestra el mensaje "El mercado está cerrado" y no hay alertas nuevas.</p>
+    <p>Cuando el mercado está <strong>abierto</strong>, la app escanea las acciones automáticamente cada 15 minutos.</p>
+  </div>
+
+  <h2>Cómo usar la app paso a paso</h2>
+
+  <div class="step">
+    <p><span class="step-number">Paso 1:</span> <strong>Abre la app</strong></p>
+    <p>Al abrir la app, verás arriba una noticia del día sobre el mercado y una frase inspiradora de un inversionista famoso. Esta noticia se actualiza cada 30 minutos.</p>
+  </div>
+
+  <div class="step">
+    <p><span class="step-number">Paso 2:</span> <strong>Elige qué acciones quieres vigilar</strong></p>
+    <p>Arriba hay botones para elegir un grupo de acciones:</p>
+    <ul>
+      <li><strong>S&P 500</strong> — Las 500 empresas más grandes (escanea las 100 principales)</li>
+      <li><strong>S&P 100</strong> — Las 100 más grandes</li>
+      <li><strong>Tech</strong> — Solo empresas de tecnología (Apple, Google, etc.)</li>
+      <li><strong>Bancos</strong> — Solo bancos y financieras</li>
+      <li><strong>Energía</strong> — Petróleo, gas, energía</li>
+      <li><strong>Mis acciones</strong> — Tu propia lista personal</li>
+    </ul>
+    <p>Toca el botón del grupo que te interese. El botón azul es el que está activo.</p>
+  </div>
+
+  <div class="step">
+    <p><span class="step-number">Paso 3:</span> <strong>Filtra las alertas</strong></p>
+    <p>Debajo de los grupos, hay filtros:</p>
+    <ul>
+      <li><strong>Todas</strong> — Muestra todas las alertas</li>
+      <li><strong>Suben</strong> — Solo acciones que subieron</li>
+      <li><strong>Bajan</strong> — Solo acciones que bajaron</li>
+    </ul>
+    <p>También puedes elegir qué tan grande debe ser el movimiento:</p>
+    <ul>
+      <li><strong>≥2%</strong> — Muestra movimientos de 2% o más (más alertas)</li>
+      <li><strong>≥3%</strong> — Movimientos de 3% o más (recomendado)</li>
+      <li><strong>≥5%</strong> — Solo movimientos muy grandes (menos alertas)</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <p><span class="step-number">Paso 4:</span> <strong>Lee las alertas</strong></p>
+    <p>Cuando el mercado esté abierto y haya movimientos importantes, verás tarjetas con información de cada acción:</p>
+    <ul>
+      <li><strong>El símbolo</strong> (ej: AAPL = Apple)</li>
+      <li><strong>El porcentaje de cambio</strong> (ej: +4.2% hoy)</li>
+      <li><strong>El precio actual</strong></li>
+      <li><strong>La severidad</strong>: "Fuerte" (≥5%) o "Moderada" (3-5%)</li>
+    </ul>
+    <p>Las tarjetas con borde <strong style="color:#34d399">verde</strong> son acciones que subieron. Las de borde <strong style="color:#f87171">rojo</strong> son las que bajaron.</p>
+  </div>
+
+  <div class="step">
+    <p><span class="step-number">Paso 5:</span> <strong>Pregúntale a la IA</strong></p>
+    <p>Toca el ícono de chat (arriba a la derecha) para hablar con el asistente de inteligencia artificial. Puedes preguntarle cosas como:</p>
+    <ul>
+      <li>"¿Qué está pasando con Apple?"</li>
+      <li>"¿Debería preocuparme si NVIDIA bajó 5%?"</li>
+      <li>"¿Qué es el RSI?"</li>
+      <li>"¿Qué opinas del sector tecnológico?"</li>
+    </ul>
+    <p>El asistente responde en español y siempre incluye un aviso de que no es asesoramiento financiero profesional.</p>
+  </div>
+
+  <div class="step">
+    <p><span class="step-number">Paso 6:</span> <strong>Ajustes (opcional)</strong></p>
+    <p>Toca el ícono de engranaje (arriba) para cambiar:</p>
+    <ul>
+      <li>Cada cuántos segundos se actualiza la pantalla</li>
+      <li>Activar/desactivar sonidos y notificaciones</li>
+      <li>Cambiar entre modo oscuro y claro</li>
+      <li>Editar tu lista personal de acciones</li>
+    </ul>
+  </div>
+
+  <h2>Consejos importantes</h2>
+
+  <div class="tip">
+    <p><span class="tip-label">Consejo:</span> Si ves que NVDA (NVIDIA) o AAPL (Apple) bajaron más de 3%, no significa que debas vender o comprar inmediatamente. Es solo una señal para que investigues qué pasó.</p>
+  </div>
+
+  <div class="tip">
+    <p><span class="tip-label">Consejo:</span> Las mejores alertas son las que muestran movimientos ≥5% (marcadas como "Fuerte"). Estas son las que merecen más atención.</p>
+  </div>
+
+  <div class="warning">
+    <p><span class="warning-label">Importante:</span> Esta app es solo informativa. NO es asesoramiento financiero. Siempre consulta con un profesional antes de tomar decisiones de inversión.</p>
+  </div>
+
+  <h2>Símbolos comunes</h2>
+  <p>Estos son los símbolos de algunas empresas conocidas:</p>
+  <ul>
+    <li><strong>AAPL</strong> = Apple</li>
+    <li><strong>MSFT</strong> = Microsoft</li>
+    <li><strong>GOOGL</strong> = Google (Alphabet)</li>
+    <li><strong>AMZN</strong> = Amazon</li>
+    <li><strong>NVDA</strong> = NVIDIA</li>
+    <li><strong>TSLA</strong> = Tesla</li>
+    <li><strong>META</strong> = Meta (Facebook)</li>
+    <li><strong>JPM</strong> = JPMorgan Chase</li>
+    <li><strong>V</strong> = Visa</li>
+    <li><strong>KO</strong> = Coca-Cola</li>
+  </ul>
+
+  <p style="margin-top: 40px; color: #7d8da6; text-align: center; font-size: 0.85rem;">
+    Hecho con cariño para papá
+  </p>
+</body>
+</html>

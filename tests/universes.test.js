@@ -8,6 +8,7 @@ import {
 
 describe('universes service', () => {
   it('UNIVERSES contains all expected keys', () => {
+    expect(UNIVERSES).toHaveProperty('SP500');
     expect(UNIVERSES).toHaveProperty('SP100');
     expect(UNIVERSES).toHaveProperty('TECH_USA');
     expect(UNIVERSES).toHaveProperty('BANKS_USA');

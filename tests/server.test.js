@@ -53,7 +53,7 @@ describe('server integration tests', () => {
     expect(res.ok).toBe(true);
     const data = await res.json();
     expect(Array.isArray(data)).toBe(true);
-    expect(data.length).toBeGreaterThanOrEqual(5);
+    expect(data.length).toBeGreaterThanOrEqual(6);
 
     const ids = data.map(u => u.id);
     expect(ids).toContain('SP100');

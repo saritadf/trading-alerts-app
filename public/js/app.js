@@ -4,7 +4,7 @@ let alertsData = [];
 let currentFilter = 'all';
 let autoRefreshInterval = null;
 let currentInsight = null;
-let currentUniverse = 'SP100';
+let currentUniverse = 'SP500';
 let universesData = [];
 let lastScanTime = null;
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Load settings from localStorage
 function loadSettings() {
   fetchDailyInsight();
-  setInterval(fetchDailyInsight, 60 * 60 * 1000);
+  setInterval(fetchDailyInsight, 30 * 60 * 1000);
   const saved = localStorage.getItem('tradingAlertsSettings');
   if (saved) {
     settings = { ...settings, ...JSON.parse(saved) };

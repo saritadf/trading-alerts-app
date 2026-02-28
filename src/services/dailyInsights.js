@@ -22,7 +22,7 @@ async function generateInsight() {
   try {
     const groq = getGroqClient();
     const fecha = new Date().toLocaleDateString('es', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    const prompt = `Genera para traders del mercado de EE.UU.:\n1. LA noticia más importante del día que afecta los mercados (máximo 2 líneas, sé específico)\n2. UNA frase inspiradora de trading de Warren Buffett, Jesse Livermore, Paul Tudor Jones, George Soros o Ray Dalio\n\nFecha: ${fecha}\nFormato: NEWS: [texto en español]\nQUOTE: "[frase en español]" - [Autor]`;
+    const prompt = `Genera para traders del mercado de EE.UU.:\n1. LA noticia más importante del día que afecta los mercados (máximo 2 líneas, sé específico con datos)\n2. UNA frase famosa de un trader o inversor legendario (Warren Buffett, Jesse Livermore, Paul Tudor Jones, George Soros, Ray Dalio, Peter Lynch, Benjamin Graham, Charlie Munger) que TENGA RELACIÓN con la noticia del día. La frase debe ser relevante al contexto actual.\n\nFecha: ${fecha}\nFormato: NEWS: [texto en español]\nQUOTE: "[frase en español]" - [Autor]`;
     const completion = await groq.chat.completions.create({
       messages: [{ role: 'system', content: 'Analista de mercado que proporciona análisis concisos en español. Enfócate en la noticia más impactante del día.' }, { role: 'user', content: prompt }],
       model: 'llama-3.3-70b-versatile',
@@ -49,7 +49,7 @@ async function generateInsight() {
 
 export async function getCurrentInsight() {
   const now = new Date();
-  if (!currentInsight || !lastUpdateTime || (now - lastUpdateTime) > 3600000) {
+  if (!currentInsight || !lastUpdateTime || (now - lastUpdateTime) > 1800000) {
     currentInsight = await generateInsight();
     lastUpdateTime = now;
     console.log('\u2728 Daily insight updated');
@@ -66,9 +66,9 @@ export async function refreshInsight() {
 
 setInterval(async () => {
   const now = new Date();
-  if (!lastUpdateTime || (now - lastUpdateTime) >= 3600000) {
+  if (!lastUpdateTime || (now - lastUpdateTime) >= 1800000) {
     currentInsight = await generateInsight();
     lastUpdateTime = now;
-    console.log('\u2728 Daily insight auto-updated (hourly)');
+    console.log('\u2728 Daily insight auto-updated (every 30 min)');
   }
-}, 60 * 60 * 1000);
+}, 30 * 60 * 1000);

@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 
 const DATA_DIR = path.join(__dirname, '../data');
 const SP100_PATH = path.join(DATA_DIR, 'sp100.json');
+const SP500_PATH = path.join(DATA_DIR, 'sp500.json');
 const CUSTOM_PATH = path.join(DATA_DIR, 'custom.json');
 
 function getUniverseFilePath(universeId) {
@@ -14,6 +15,13 @@ function getUniverseFilePath(universeId) {
 }
 
 export const UNIVERSES = {
+  SP500: {
+    id: 'SP500',
+    name: 'S&P 500',
+    description: 'Las 500 empresas más grandes de EE.UU.',
+    source: 'local-json',
+    maxSymbols: 100
+  },
   SP100: {
     id: 'SP100',
     name: 'S&P 100',
@@ -100,7 +108,10 @@ export function getUniverseSymbols(universeId) {
 
   let symbols = [];
 
-  if (universeId === 'SP100') {
+  if (universeId === 'SP500') {
+    const sp500Data = loadJSON(SP500_PATH, { symbols: [] });
+    symbols = sp500Data.symbols || [];
+  } else if (universeId === 'SP100') {
     const sp100Data = loadJSON(SP100_PATH, { symbols: [] });
     symbols = sp100Data.symbols || [];
   } else if (universeId === 'CUSTOM') {
