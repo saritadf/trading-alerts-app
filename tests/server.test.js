@@ -113,7 +113,7 @@ describe('server integration tests', () => {
     const res = await fetch(`${baseUrl}/`);
     expect(res.ok).toBe(true);
     const html = await res.text();
-    expect(html).toContain('Trading Alerts');
+    expect(html).toContain('Alertas de Trading');
     expect(html).toContain('<!DOCTYPE html>');
   });
 
