@@ -2,6 +2,9 @@
 import { getUniverseSymbols } from './universes.js';
 
 const FINNHUB_API_BASE_URL = 'https://finnhub.io/api/v1';
+const FETCH_TIMEOUT_MS = 10000;
+const MAX_RETRIES = 2;
+const RETRY_DELAY_MS = 1000;
 
 function getApiKey() {
   const key = process.env.FINNHUB_KEY;
@@ -13,11 +16,24 @@ function getApiKey() {
 
 const MIN_PRICE = 5;
 const DEFAULT_UNIVERSE = process.env.DEFAULT_UNIVERSE || 'SP100';
-const MAX_SYMBOLS_PER_SCAN = parseInt(process.env.MAX_SYMBOLS_PER_SCAN || '100', 10);
+const MAX_SYMBOLS_PER_SCAN = parseInt(
+  process.env.MAX_SYMBOLS_PER_SCAN || '100', 10
+);
 const DELAY_MS = parseInt(process.env.DELAY_MS || '350', 10);
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function fetchWithTimeout(url, timeoutMs = FETCH_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    return res;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function fetchQuote(symbol) {
@@ -26,12 +42,27 @@ async function fetchQuote(symbol) {
   url.searchParams.set('symbol', symbol);
   url.searchParams.set('token', API_KEY);
 
-  const res = await fetch(url.toString());
-  if (!res.ok) {
-    throw new Error(`Finnhub HTTP ${res.status} for ${symbol}`);
+  let lastError;
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const res = await fetchWithTimeout(url.toString());
+      if (res.status === 429) {
+        console.warn(`Finnhub rate limited on ${symbol}, waiting...`);
+        await sleep(RETRY_DELAY_MS * (attempt + 1));
+        continue;
+      }
+      if (!res.ok) {
+        throw new Error(`Finnhub HTTP ${res.status} for ${symbol}`);
+      }
+      return await res.json();
+    } catch (error) {
+      lastError = error;
+      if (attempt < MAX_RETRIES) {
+        await sleep(RETRY_DELAY_MS * (attempt + 1));
+      }
+    }
   }
-  const data = await res.json();
-  return data;
+  throw lastError;
 }
 
 // ====== API PRINCIPAL ======

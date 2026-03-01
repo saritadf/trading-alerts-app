@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trading Alerts</title>
+  <title>Alertas de Trading</title>
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/premium-styles.css">
   <link rel="manifest" href="/manifest.json">
@@ -17,106 +17,88 @@
     <header class="header">
       <div class="header-content">
         <div class="header-left">
-          <h1 class="logo">Trading Alerts</h1>
+          <h1 class="logo">Alertas de Trading</h1>
           <div class="status-badge" id="marketStatus">
             <span class="status-dot"></span>
-            <span id="statusText">Loading...</span>
+            <span id="statusText">Cargando...</span>
           </div>
         </div>
         <div class="header-right">
-          <button class="icon-btn" id="refreshBtn" aria-label="Refresh">
+          <button class="icon-btn" id="refreshBtn" aria-label="Actualizar">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
           </button>
-          <button class="icon-btn" id="settingsBtn" aria-label="Settings">
+          <button class="icon-btn" id="settingsBtn" aria-label="Ajustes">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
           </button>
-          <button class="icon-btn" id="chatToggle" aria-label="AI Chat">
+          <button class="icon-btn" id="chatToggle" aria-label="Chat IA">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
             </svg>
           </button>
+          <a href="/guia.html" class="icon-btn" aria-label="Ayuda">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+            </svg>
+          </a>
         </div>
       </div>
     </header>
 
-    <!-- Combined Info Banner -->
-    <div id="insightBanner" class="info-banner hidden">
-      <div class="info-content">
-        <div class="info-text">
-          <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-          </svg>
-          <p id="insightNewsText">Scanning S&P 100 every 15 min (free API)</p>
-        </div>
-        <div id="insightQuoteText" class="info-quote hidden"></div>
-      </div>
-    </div>
+    <!-- Universe Selector -->
+    <nav class="universe-bar">
+      <button class="universe-pill active" data-universe="SP500">S&P 500</button>
+      <button class="universe-pill" data-universe="SP100">S&P 100</button>
+      <button class="universe-pill" data-universe="TECH_USA">Tech</button>
+      <button class="universe-pill" data-universe="BANKS_USA">Bancos</button>
+      <button class="universe-pill" data-universe="ENERGY">Energía</button>
+      <button class="universe-pill" data-universe="CUSTOM">Mis acciones</button>
+    </nav>
 
-    <!-- Unified Controls Bar -->
-    <div class="controls-bar">
-      <div class="controls-section">
-        <div class="universe-selector">
-          <button class="universe-pill active" data-universe="SP100">S&P 100</button>
-          <button class="universe-pill" data-universe="TECH_USA">Tech</button>
-          <button class="universe-pill" data-universe="BANKS_USA">Banks</button>
-          <button class="universe-pill" data-universe="ENERGY">Energy</button>
-          <button class="universe-pill" data-universe="CUSTOM">Custom</button>
-        </div>
-      </div>
-      
-      <div class="controls-section">
+    <!-- Filters Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
         <div class="filter-tabs">
           <button class="tab-btn active" data-filter="all">
-            All <span class="badge" id="badgeAll">0</span>
+            Todas <span class="badge" id="badgeAll">0</span>
           </button>
           <button class="tab-btn" data-filter="up">
-            Up <span class="badge badge-success" id="badgeUp">0</span>
+            Suben <span class="badge badge-success" id="badgeUp">0</span>
           </button>
           <button class="tab-btn" data-filter="down">
-            Down <span class="badge badge-danger" id="badgeDown">0</span>
+            Bajan <span class="badge badge-danger" id="badgeDown">0</span>
           </button>
         </div>
-      </div>
-
-      <div class="controls-section">
         <div class="threshold-chips">
           <button class="threshold-chip" data-threshold="2">≥2%</button>
           <button class="threshold-chip active" data-threshold="3">≥3%</button>
           <button class="threshold-chip" data-threshold="5">≥5%</button>
         </div>
-        <select id="sortSelect" class="select-input">
-          <option value="change">Change %</option>
-          <option value="volume">Volume</option>
-          <option value="time">Time</option>
-        </select>
       </div>
-
-      <div class="controls-section summary-compact">
-        <div class="summary-compact-item">
-          <span class="summary-label">Strong:</span>
-          <span class="summary-value" id="strongAlertsCount">0</span>
-        </div>
-        <div class="summary-compact-item">
-          <span class="summary-label">Mod:</span>
-          <span class="summary-value" id="normalAlertsCount">0</span>
-        </div>
-        <div class="last-update">
-          <span id="lastUpdate">--:--</span>
-        </div>
+      <div class="toolbar-right">
+        <select id="sortSelect" class="select-input">
+          <option value="change">Cambio %</option>
+          <option value="volume">Volumen</option>
+          <option value="time">Hora</option>
+        </select>
+        <span class="last-update" id="lastUpdate">--:--</span>
       </div>
     </div>
+
+    <!-- Hidden stats for JS compatibility -->
+    <span id="strongAlertsCount" class="hidden">0</span>
+    <span id="normalAlertsCount" class="hidden">0</span>
 
     <!-- Alerts List -->
     <main class="main-content">
       <div id="alertsList" class="alerts-grid">
         <div class="loading-state">
           <div class="loading-spinner"></div>
-          <p>Loading alerts...</p>
+          <p>Cargando alertas...</p>
         </div>
       </div>
       
@@ -125,8 +107,8 @@
         <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
         </svg>
-        <h3>No alerts</h3>
-        <p>No significant movements found. Try lowering the threshold.</p>
+        <h3 id="emptyTitle">Sin alertas</h3>
+        <p id="emptyDescription">No se encontraron movimientos importantes. Intenta bajar el umbral.</p>
       </div>
     </main>
 
@@ -135,7 +117,7 @@
       <div class="modal-backdrop"></div>
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Settings</h2>
+          <h2>Ajustes</h2>
           <button class="icon-btn" id="closeSettings">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -144,33 +126,33 @@
         </div>
         <div class="modal-body">
           <div class="setting-group">
-            <label>Auto-refresh (seconds)</label>
+            <label>Auto-actualizar (segundos)</label>
             <input type="number" id="autoRefresh" min="10" max="300" value="30" class="input">
           </div>
           
           <div class="setting-group">
-            <label>Max alerts</label>
+            <label>Alertas max.</label>
             <input type="number" id="maxAlerts" min="10" max="100" value="50" class="input">
           </div>
           
           <div class="setting-group">
             <label class="toggle-label">
               <input type="checkbox" id="soundToggle" checked>
-              <span>Notification sound</span>
+              <span>Sonido de notificación</span>
             </label>
           </div>
           
           <div class="setting-group">
             <label class="toggle-label">
               <input type="checkbox" id="notificationsToggle">
-              <span>Browser notifications</span>
+              <span>Notificaciones del navegador</span>
             </label>
           </div>
           
           <div class="setting-group">
             <label class="toggle-label">
               <input type="checkbox" id="darkModeToggle" checked>
-              <span>Dark mode</span>
+              <span>Modo oscuro</span>
             </label>
           </div>
           
@@ -202,7 +184,7 @@
           <div id="universeEditor" class="universe-editor hidden">
             <h3 id="universeEditorTitle"></h3>
             <p class="help-text" id="universeEditorHelp"></p>
-            <textarea id="universeSymbolsTextarea" class="symbols-textarea" placeholder="Símbolos separados por comas (ej: AAPL, MSFT, GOOGL)"></textarea>
+            <textarea id="universeSymbolsTextarea" class="symbols-textarea" placeholder="Símbolos separados por comas (ej. AAPL, MSFT, GOOGL)"></textarea>
             <div class="modal-actions">
               <button class="btn-primary" id="saveUniverseBtn">Guardar</button>
               <button class="btn-secondary" id="cancelUniverseBtn">Cancelar</button>
@@ -212,10 +194,10 @@
           <!-- Custom Universe Editor -->
           <div id="customUniverseEditor" class="custom-universe-editor hidden">
             <h3>Mis acciones</h3>
-            <p class="help-text">Máximo 50 acciones en 'Mis acciones' para mantener la app rápida con API gratuita.</p>
+            <p class="help-text">Máximo 50 acciones en tu lista para mantener la app rápida.</p>
             <div class="add-symbol-form">
-              <input type="text" id="newSymbolInput" placeholder="Símbolo (ej: AAPL)" class="input" maxlength="10">
-              <button class="btn-primary" id="addSymbolBtn">Añadir</button>
+              <input type="text" id="newSymbolInput" placeholder="Símbolo (ej. AAPL)" class="input" maxlength="10">
+              <button class="btn-primary" id="addSymbolBtn">Agregar</button>
             </div>
             <div id="customSymbolsList" class="symbols-list">
               <!-- Custom symbols will be listed here -->
@@ -234,7 +216,7 @@
       <div class="modal-backdrop"></div>
       <div class="modal-content modal-chat">
         <div class="modal-header">
-          <h2>AI Assistant</h2>
+          <h2>Asistente IA</h2>
           <button class="icon-btn" id="closeChat">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -245,7 +227,7 @@
         <div class="chat-messages" id="chatMessages">
           <div class="message ai-message">
             <div class="message-content">
-              Hello! I'm your trading assistant. Ask me about alerts, technical analysis, or investment strategies.
+              ¡Hola! Soy tu asistente de trading. Pregúntame sobre alertas, análisis técnico o estrategias de inversión.
             </div>
           </div>
         </div>
@@ -253,7 +235,7 @@
         <div class="chat-input-container">
           <textarea 
             id="chatInput" 
-            placeholder="Type your question..."
+            placeholder="Escribe tu pregunta..."
             rows="2"
           ></textarea>
           <button id="sendBtn" class="send-btn">
@@ -266,7 +248,20 @@
     </div>
   </div>
 
+  <!-- Insight Footer Bar (collapsible news + quote) -->
+  <div id="insightFooter" class="insight-footer hidden">
+    <button id="insightToggle" class="insight-toggle" aria-label="Mostrar/ocultar noticias">
+      <span class="insight-toggle-label">Noticias del día</span>
+      <svg class="insight-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+      </svg>
+    </button>
+    <div class="insight-body">
+      <p id="insightNewsText" class="insight-news-text"></p>
+      <p id="insightQuoteText" class="insight-quote-text"></p>
+    </div>
+  </div>
+
   <script src="/js/app.js" type="module"></script>
-  <script src="/js/notifications.js" type="module"></script>
 </body>
 </html>

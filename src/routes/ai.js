@@ -4,23 +4,32 @@ import { getCurrentInsight, refreshInsight } from '../services/dailyInsights.js'
 
 const router = express.Router();
 
+const MAX_MESSAGE_LENGTH = 1000;
+
 // Chat with AI
 router.post('/chat', async (req, res) => {
   try {
     const { message, context } = req.body;
-    
+
     if (!message || message.trim().length === 0) {
       return res.status(400).json({ error: 'Message is required' });
     }
-    
-    const response = await chat(message, context);
+
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      return res.status(400).json({
+        error: `Message too long (max ${MAX_MESSAGE_LENGTH} characters)`
+      });
+    }
+
+    const sanitizedMessage = message.trim();
+    const response = await chat(sanitizedMessage, context);
     res.json({ success: true, response });
   } catch (error) {
     console.error('Error in chat:', error);
-    res.status(500).json({ 
-      success: false, 
+    res.status(500).json({
+      success: false,
       error: error.message,
-      fallback: 'Lo siento, el servicio de AI está temporalmente no disponible. Por favor intenta de nuevo.'
+      fallback: 'Lo siento, el servicio de IA no está disponible en este momento. Intenta de nuevo.'
     });
   }
 });
@@ -32,7 +41,7 @@ router.get('/insight', async (req, res) => {
     res.json(insight);
   } catch (error) {
     console.error('Error getting insight:', error);
-    res.status(500).json({ error: 'Error obteniendo insight' });
+    res.status(500).json({ error: 'Error fetching insight' });
   }
 });
 
@@ -43,7 +52,7 @@ router.post('/insight/refresh', async (req, res) => {
     res.json(insight);
   } catch (error) {
     console.error('Error refreshing insight:', error);
-    res.status(500).json({ error: 'Error refrescando insight' });
+    res.status(500).json({ error: 'Error refreshing insight' });
   }
 });
 

@@ -1,0 +1,26 @@
+{
+  "name": "S&P 500",
+  "description": "Las 500 empresas más grandes de EE.UU.",
+  "symbols": [
+    "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA", "BRK.B", "JPM", "V",
+    "UNH", "MA", "XOM", "JNJ", "WMT", "PG", "LLY", "AVGO", "CVX", "MRK",
+    "ABBV", "COST", "PEP", "ADBE", "CSCO", "TMO", "ACN", "MCD", "NFLX", "CRM",
+    "AMD", "LIN", "DIS", "VZ", "ABT", "NKE", "PM", "WFC", "CMCSA", "NEE",
+    "TXN", "RTX", "UPS", "QCOM", "AMGN", "HON", "INTU", "AMAT", "SPGI", "DE",
+    "BKNG", "LOW", "ADP", "C", "SBUX", "GE", "AXP", "GS", "BLK", "ELV",
+    "TJX", "GILD", "ISRG", "MDT", "ADI", "SYK", "ZTS", "REGN", "CDNS", "SNPS",
+    "KLAC", "FTNT", "NXPI", "CTSH", "ANSS", "MCHP", "CTAS", "FAST", "PAYX", "CPRT",
+    "BA", "CAT", "GEV", "IBM", "MMM", "DHR", "PFE", "KO", "BMY", "ORCL",
+    "T", "SCHW", "F", "GM", "FDX", "SO", "DUK", "CI", "CB", "ICE",
+    "PLD", "AMT", "PSA", "EQIX", "CCI", "SPG", "O", "DLR", "WELL", "AVB",
+    "SLB", "EOG", "COP", "MPC", "VLO", "PSX", "HES", "FANG", "DVN", "OXY",
+    "USB", "PNC", "TFC", "BK", "STT", "CFG", "MTB", "HBAN", "KEY", "RF",
+    "CME", "MS", "MSCI", "AIG", "MET", "PRU", "ALL", "TRV", "AFL", "PGR",
+    "CL", "KMB", "EL", "CHD", "SHW", "ECL", "APD", "LHX", "NOC", "GD",
+    "MDLZ", "KHC", "HSY", "GIS", "K", "CPB", "SJM", "HRL", "CAG", "MKC",
+    "ABNB", "UBER", "DASH", "COIN", "PLTR", "SQ", "SHOP", "MELI", "SE", "SNAP",
+    "LMT", "HII", "TXT", "LUV", "DAL", "UAL", "AAL", "MAR", "HLT", "RCL",
+    "PYPL", "FIS", "FISV", "GPN", "WBD", "PARA", "FOX", "NWSA", "CHTR", "TMUS",
+    "LRCX", "ON", "SWKS", "MRVL", "MPWR", "TER", "ENPH", "SEDG", "FSLR", "RUN"
+  ]
+}

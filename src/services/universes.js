@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 
 const DATA_DIR = path.join(__dirname, '../data');
 const SP100_PATH = path.join(DATA_DIR, 'sp100.json');
+const SP500_PATH = path.join(DATA_DIR, 'sp500.json');
 const CUSTOM_PATH = path.join(DATA_DIR, 'custom.json');
 
 function getUniverseFilePath(universeId) {
@@ -14,17 +15,24 @@ function getUniverseFilePath(universeId) {
 }
 
 export const UNIVERSES = {
+  SP500: {
+    id: 'SP500',
+    name: 'S&P 500',
+    description: 'Las 500 empresas más grandes de EE.UU.',
+    source: 'local-json',
+    maxSymbols: 100
+  },
   SP100: {
     id: 'SP100',
     name: 'S&P 100',
-    description: 'Las 100 acciones más grandes de USA',
+    description: 'Las 100 acciones más grandes de EE.UU.',
     source: 'local-json',
     maxSymbols: 100
   },
   TECH_USA: {
     id: 'TECH_USA',
-    name: 'Tecnología USA',
-    description: 'Grandes tecnológicas US',
+    name: 'Tecnología',
+    description: 'Grandes tecnológicas de EE.UU.',
     symbols: [
       'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA',
       'META', 'TSLA', 'AVGO', 'ADBE', 'CSCO',
@@ -38,8 +46,8 @@ export const UNIVERSES = {
   },
   BANKS_USA: {
     id: 'BANKS_USA',
-    name: 'Bancos y financieras',
-    description: 'Bancos y servicios financieros USA',
+    name: 'Bancos',
+    description: 'Bancos y servicios financieros de EE.UU.',
     symbols: [
       'JPM', 'BAC', 'WFC', 'GS', 'MS',
       'C', 'BLK', 'AXP', 'COF', 'SCHW',
@@ -50,8 +58,8 @@ export const UNIVERSES = {
   },
   ENERGY: {
     id: 'ENERGY',
-    name: 'Energía y materias primas',
-    description: 'Sector energético y commodities',
+    name: 'Energía',
+    description: 'Sector energético y materias primas',
     symbols: [
       'XOM', 'CVX', 'SLB', 'EOG', 'COP',
       'MPC', 'VLO', 'PSX', 'HES', 'FANG',
@@ -62,7 +70,7 @@ export const UNIVERSES = {
   CUSTOM: {
     id: 'CUSTOM',
     name: 'Mis acciones',
-    description: 'Watchlist personal configurable',
+    description: 'Tu lista personal de acciones',
     source: 'local-json',
     maxSymbols: 50
   }
@@ -100,7 +108,10 @@ export function getUniverseSymbols(universeId) {
 
   let symbols = [];
 
-  if (universeId === 'SP100') {
+  if (universeId === 'SP500') {
+    const sp500Data = loadJSON(SP500_PATH, { symbols: [] });
+    symbols = sp500Data.symbols || [];
+  } else if (universeId === 'SP100') {
     const sp100Data = loadJSON(SP100_PATH, { symbols: [] });
     symbols = sp100Data.symbols || [];
   } else if (universeId === 'CUSTOM') {

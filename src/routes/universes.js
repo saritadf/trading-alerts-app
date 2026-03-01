@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllUniverses, getUniverseInfo, getUniverseSymbols, updateCustomUniverse, updateUniverse, UNIVERSES } from '../services/universes.js';
+import { getAllUniverses, getUniverseSymbols, updateCustomUniverse, updateUniverse, UNIVERSES } from '../services/universes.js';
 import scanner from '../services/scanner.js';
 
 const router = express.Router();
@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
   try {
     const { id } = req.params;
     const universe = UNIVERSES[id];
-    
+
     if (!universe) {
       return res.status(404).json({ error: 'Universe not found' });
     }
@@ -44,23 +44,23 @@ router.get('/:id', (req, res) => {
 router.post('/custom', (req, res) => {
   try {
     const { symbols } = req.body;
-    
+
     if (!Array.isArray(symbols)) {
       return res.status(400).json({ error: 'Symbols must be an array' });
     }
 
     const maxSymbols = UNIVERSES.CUSTOM.maxSymbols || 50;
     if (symbols.length > maxSymbols) {
-      return res.status(400).json({ 
-        error: `Maximum ${maxSymbols} symbols allowed in custom universe` 
+      return res.status(400).json({
+        error: `Maximum ${maxSymbols} symbols allowed in custom universe`
       });
     }
 
     const updatedSymbols = updateCustomUniverse(symbols);
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       symbols: updatedSymbols,
-      count: updatedSymbols.length 
+      count: updatedSymbols.length
     });
   } catch (error) {
     console.error('Error updating custom universe:', error);
@@ -73,7 +73,7 @@ router.put('/:id', (req, res) => {
   try {
     const { id } = req.params;
     const { symbols } = req.body;
-    
+
     if (!Array.isArray(symbols)) {
       return res.status(400).json({ error: 'Symbols must be an array' });
     }
@@ -85,16 +85,16 @@ router.put('/:id', (req, res) => {
 
     const maxSymbols = universe.maxSymbols || 50;
     if (symbols.length > maxSymbols) {
-      return res.status(400).json({ 
-        error: `Maximum ${maxSymbols} symbols allowed in ${universe.name}` 
+      return res.status(400).json({
+        error: `Maximum ${maxSymbols} symbols allowed in ${universe.name}`
       });
     }
 
     const updatedSymbols = updateUniverse(id, symbols);
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       symbols: updatedSymbols,
-      count: updatedSymbols.length 
+      count: updatedSymbols.length
     });
   } catch (error) {
     console.error('Error updating universe:', error);
@@ -106,7 +106,7 @@ router.put('/:id', (req, res) => {
 router.post('/scanner/universe', (req, res) => {
   try {
     const { universeId } = req.body;
-    
+
     if (!universeId) {
       return res.status(400).json({ error: 'universeId is required' });
     }
@@ -117,10 +117,10 @@ router.post('/scanner/universe', (req, res) => {
     }
 
     scanner.setUniverse(universeId);
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       universeId,
-      message: `Scanner universe changed to ${universe.name}` 
+      message: `Scanner universe changed to ${universe.name}`
     });
   } catch (error) {
     console.error('Error setting scanner universe:', error);
